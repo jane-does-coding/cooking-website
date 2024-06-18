@@ -1,4 +1,3 @@
-"use client";
 import Login from "@/app/components/LoginAndRegister/Login";
 
 const page = () => {
