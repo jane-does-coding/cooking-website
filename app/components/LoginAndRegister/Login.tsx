@@ -23,46 +23,57 @@ const Login = () => {
 
 	const onSubmit: SubmitHandler<FieldValues> = (data) => {
 		setIsLoading(true);
+		console.log(data);
 
 		signIn("credentials", {
 			...data,
 			redirect: false,
-		}).then((callback) => {
-			setIsLoading(false);
+		})
+			.then((callback) => {
+				setIsLoading(false);
 
-			if (callback?.ok) {
-				toast.success("Logged in");
-				router.push("/dashboard");
-				router.refresh();
-			}
+				if (callback?.ok) {
+					toast.success("Logged in");
+					router.push("/");
+					router.refresh();
+				}
 
-			if (callback?.error) {
-				toast.error(callback.error);
-			}
-		});
+				if (callback?.error) {
+					toast.error(callback.error);
+				}
+			})
+			.catch((error) => {
+				setIsLoading(false);
+				toast.error("An error occurred during sign-in");
+				console.error(error); // Log the error for debugging
+			});
 	};
 
 	return (
 		<div>
-			<h1>hello</h1>
-			<Input
-				id="email"
-				label="Email"
-				disabled={isLoading}
-				errors={errors}
-				required
-				register={register}
-			/>
-			<Input
-				id="password"
-				label="Password"
-				type="password"
-				disabled={isLoading}
-				errors={errors}
-				required
-				register={register}
-			/>
-			<button onClick={onSubmit}>Submit</button>
+			<h1>Login</h1>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<Input
+					id="email"
+					label="Email"
+					disabled={isLoading}
+					errors={errors}
+					required
+					register={register}
+				/>
+				<Input
+					id="password"
+					label="Password"
+					type="password"
+					disabled={isLoading}
+					errors={errors}
+					required
+					register={register}
+				/>
+				<button type="submit" disabled={isLoading}>
+					{isLoading ? "Logging in..." : "Submit"}
+				</button>
+			</form>
 		</div>
 	);
 };
