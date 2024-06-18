@@ -2,11 +2,13 @@ import Image from "next/image";
 import LandingCarousel from "./components/Landing/LandingCarousel";
 import AnimatedTextWord from "./components/AnimatedTextWord";
 import AnimatedTextCharacter from "./components/AnimatedTextCharacter";
+import SignOutButton from "./components/SignOutButton";
 
 export default function Home() {
 	return (
 		<>
 			<div className=" min-h-[90vh] max-h-[105vh]">
+				<SignOutButton />
 				<div className="text-[2rem] mx-auto mt-28 mb-0 jura w-fit text-neutral-300">
 					<AnimatedTextWord
 						text="Perfect place to"
