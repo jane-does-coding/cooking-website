@@ -23,6 +23,10 @@ export default function RootLayout({
 					href="https://fonts.googleapis.com/css2?family=Playwrite+SK:wght@100..400&display=swap"
 					rel="stylesheet"
 				></link>
+				<link
+					href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Playwrite+SK:wght@100..400&display=swap"
+					rel="stylesheet"
+				/>
 			</head>
 			<body className={`${inter.className} dark`}>{children}</body>
 		</html>

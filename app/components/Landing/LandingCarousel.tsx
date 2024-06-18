@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import {
 	Carousel,
 	CarouselContent,
@@ -42,7 +45,12 @@ const LandingCarousel = () => {
 	];
 
 	return (
-		<div className="mx-20 w-[100vw]">
+		<motion.div
+			initial={{ opacity: 0, y: 100 }} // Initial state: fully transparent
+			animate={{ opacity: 1, y: 0 }} // Animated state: fully opaque
+			transition={{ duration: 0.5 }} // Duration of the animation in seconds
+			className="ml-[5vw] w-[90vw] opcaity-[0]"
+		>
 			<Carousel
 				opts={{
 					align: "start",
@@ -71,7 +79,7 @@ const LandingCarousel = () => {
 				<CarouselPrevious />
 				<CarouselNext />
 			</Carousel>
-		</div>
+		</motion.div>
 	);
 };
 
