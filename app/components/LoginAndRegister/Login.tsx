@@ -1,76 +1,85 @@
 "use client";
-import Input from "@/app/components/Input";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 
 const Login = () => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<FieldValues>({
-		defaultValues: {
-			email: "",
-			password: "",
-		},
-	});
-
-	const onSubmit: SubmitHandler<FieldValues> = (data) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 		setIsLoading(true);
-		console.log(data);
 
-		signIn("credentials", {
-			...data,
+		const callback = await signIn("credentials", {
 			redirect: false,
-		})
-			.then((callback) => {
-				setIsLoading(false);
+			email,
+			password,
+		});
 
-				if (callback?.ok) {
-					toast.success("Logged in");
-					router.push("/");
-					router.refresh();
-				}
+		setIsLoading(false);
 
-				if (callback?.error) {
-					toast.error(callback.error);
-				}
-			})
-			.catch((error) => {
-				setIsLoading(false);
-				toast.error("An error occurred during sign-in");
-				console.error(error); // Log the error for debugging
-			});
+		if (callback?.ok) {
+			toast.success("Logged in");
+			router.push("/");
+			router.refresh();
+		} else if (callback?.error) {
+			toast.error(callback.error);
+		}
 	};
 
 	return (
 		<div>
 			<h1>Login</h1>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<Input
-					id="email"
-					label="Email"
+			<form onSubmit={handleSubmit}>
+				<div className="w-full relative my-1">
+					<label
+						htmlFor="email"
+						className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-zinc-400"
+					>
+						Email
+					</label>
+					<input
+						id="email"
+						type="text"
+						disabled={isLoading}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+						placeholder=" "
+						className={`peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative
+						focus:border-neutral-900`}
+					/>
+				</div>
+
+				<div className="w-full relative my-1">
+					<label
+						htmlFor="password"
+						className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-zinc-400"
+					>
+						Password
+					</label>
+					<input
+						id="password"
+						type="password"
+						disabled={isLoading}
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						required
+						placeholder=" "
+						className={`peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative
+						focus:border-neutral-900`}
+					/>
+				</div>
+
+				<button
+					type="submit"
 					disabled={isLoading}
-					errors={errors}
-					required
-					register={register}
-				/>
-				<Input
-					id="password"
-					label="Password"
-					type="password"
-					disabled={isLoading}
-					errors={errors}
-					required
-					register={register}
-				/>
-				<button type="submit" disabled={isLoading}>
+					className="w-full p-3 bg-blue-500 text-white rounded-md transition disabled:opacity-70 disabled:cursor-not-allowed"
+				>
 					{isLoading ? "Logging in..." : "Submit"}
 				</button>
 			</form>
