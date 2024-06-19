@@ -46,9 +46,9 @@ const LandingCarousel = () => {
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, y: 100 }} // Initial state: fully transparent
-			animate={{ opacity: 1, y: 0 }} // Animated state: fully opaque
-			transition={{ duration: 0.5 }} // Duration of the animation in seconds
+			initial={{ opacity: 0, y: 100 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
 			className="ml-[5vw] w-[90vw] opcaity-[0]"
 		>
 			<Carousel

@@ -1,7 +1,6 @@
 import styles from "./style.module.scss";
 import { motion } from "framer-motion";
-/* import { links, footerLinks } from "./data";
- */ import { perspective, slideIn } from "./anim";
+import { perspective, slideIn } from "./anim";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -12,15 +11,15 @@ export const no_user_links = [
 	},
 	{
 		title: "Signup",
-		href: "/dashboard",
+		href: "/register",
 	},
 	{
 		title: "Login",
-		href: "/settings",
+		href: "/login",
 	},
 	{
 		title: "About",
-		href: "/tasks",
+		href: "/about",
 	},
 	{
 		title: "Contact",
@@ -36,7 +35,6 @@ export default function Index({ currentUser }) {
 			<div className={styles.body}>
 				{currentUser ? (
 					/* Logged in links */
-
 					<div className="styles.linkContainer">
 						<div className={`my-2`}>
 							<motion.button
@@ -59,7 +57,7 @@ export default function Index({ currentUser }) {
 								animate="enter"
 								exit="exit"
 							>
-								<a href="/dashboard">Dashboard</a>
+								<a href="/recipes">Recipes</a>
 							</motion.button>
 						</div>
 						<div className={`my-2`}>
@@ -72,7 +70,7 @@ export default function Index({ currentUser }) {
 								exit="exit"
 								onClick={() => router.push("/")}
 							>
-								<a>Today&apos;s Entry</a>
+								<a>Create a recipe</a>
 							</motion.button>
 						</div>
 						<div className={`my-2`}>
@@ -150,7 +148,7 @@ export default function Index({ currentUser }) {
 								initial="initial"
 								animate="enter"
 								exit="exit"
-								onClick={() => loginModal.onOpen()}
+								onClick={() => router.push("/")}
 							>
 								<a>About</a>
 							</motion.button>
@@ -163,7 +161,7 @@ export default function Index({ currentUser }) {
 								initial="initial"
 								animate="enter"
 								exit="exit"
-								onClick={() => loginModal.onOpen()}
+								onClick={() => router.push("/")}
 							>
 								<a>Contact</a>
 							</motion.button>
