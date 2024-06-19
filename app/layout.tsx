@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { signOut } from "next-auth/react";
 import getCurrentUser from "./actions/getCurrentUser";
-
+/* import Menu from "./components/Menu";
+ */
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -33,7 +34,11 @@ export default async function RootLayout({
 					rel="stylesheet"
 				/>
 			</head>
-			<body className={`${inter.className} dark`}>{children}</body>
+			<body className={`${inter.className} dark`}>
+				{/* 				<Menu currentUser={currentUser} />
+				 */}{" "}
+				{children}
+			</body>
 		</html>
 	);
 }
