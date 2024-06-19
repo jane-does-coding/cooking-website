@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
 
+/* ADD CATEGORIES DROPDOWN */
+
 interface RecipeData {
 	title: string;
 	description: string;

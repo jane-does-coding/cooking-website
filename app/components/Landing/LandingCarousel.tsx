@@ -63,8 +63,6 @@ const LandingCarousel = () => {
 							<div className="p-1">
 								<Card>
 									<CardContent className="flex aspect-square items-center justify-center p-6">
-										{/* 										<span className="text-3xl font-semibold">hey</span>
-										 */}{" "}
 										<img
 											className="w-full h-[30vh] object-cover"
 											src={item.image}

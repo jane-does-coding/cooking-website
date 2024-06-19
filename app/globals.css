@@ -82,3 +82,24 @@
 .jura {
 	font-family: "Jura", sans-serif;
 }
+
+/* styles.css */
+
+@keyframes scale-animation {
+	0% {
+		transform: scale(1);
+	}
+	20% {
+		transform: scale(0.9);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.scale-animate {
+	animation: scale-animation 0.4s;
+}
