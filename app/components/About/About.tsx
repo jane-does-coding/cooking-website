@@ -7,10 +7,10 @@ import {
 export function About() {
 	return (
 		<div className="w-[100vw] h-[100vh] flex items-center justify-center">
-			<div className="w-[80vw] flex gap-20 ml-[10vw] items-center">
-				<div className="">
-					<h1 className="slovensko text-[4rem]">About us</h1>
-					<p className="text-[1.25rem] jura">
+			<div className="w-[80vw] flex items-center box-border">
+				<div className="max-w-[40vw] pr-20 box-border">
+					<h1 className="slovensko text-[5rem]">About us</h1>
+					<p className="text-[1.25rem] xl:text-[1.5rem] my-4 xl:my-8 jura">
 						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut omnis
 						saepe harum suscipit incidunt illo, corporis quo quidem quasi
 						recusandae.
@@ -32,7 +32,7 @@ export function About() {
 				</div>
 				<ResizablePanelGroup
 					direction="horizontal"
-					className="max-w-[45vw] w-[45vw] rounded-lg border"
+					className="max-w-[55vw] w-[55vw] rounded-lg border"
 				>
 					<ResizablePanel defaultSize={50}>
 						{/* <div className="flex h-[70vh] items-center justify-center p-6">
