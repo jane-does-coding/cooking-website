@@ -148,7 +148,7 @@ export default function Index({ currentUser }) {
 								initial="initial"
 								animate="enter"
 								exit="exit"
-								onClick={() => router.push("/")}
+								onClick={() => router.push("/about")}
 							>
 								<a>About</a>
 							</motion.button>
