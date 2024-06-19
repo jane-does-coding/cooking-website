@@ -24,12 +24,12 @@ export default function Home() {
 				</h1>
 				<LandingCarousel />
 			</div>
-			<div className="w-[80vw] ml-[10vw] flex items-center justify-center gap-20">
+			<div className="w-[80vw] ml-[10vw] flex items-center justify-center gap-20 mt-14">
 				<AnimatedTextWord
 					text={
 						"Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium iste beatae doloremque nesciunt recusandae eum laboriosam ipsam, vero dicta!"
 					}
-					className="text-[0.75rem] xl:text-[1.5rem] max-w-[40vw] flex flex-wrap h-fit jura w-1/2"
+					className="text-[1.5rem] xl:text-[1.75rem] max-w-[40vw] flex flex-wrap h-fit jura w-1/2"
 				/>
 				<div className="w-1/2">
 					<img

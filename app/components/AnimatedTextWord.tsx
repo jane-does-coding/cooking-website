@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const AnimatedTextWord = ({
 	text,
@@ -8,6 +9,11 @@ const AnimatedTextWord = ({
 	animationDelay = 0.04,
 }: any) => {
 	const words = text.split(" ");
+
+	const { ref, inView } = useInView({
+		triggerOnce: true,
+		threshold: 0.1,
+	});
 
 	const container = {
 		hidden: { opacity: 0 },
@@ -40,10 +46,11 @@ const AnimatedTextWord = ({
 
 	return (
 		<motion.div
-			style={{ overflow: "hidden", display: "flex", fontSize: "2rem" }}
+			ref={ref}
+			style={{ overflow: "hidden", display: "flex" }}
 			variants={container}
 			initial="hidden"
-			animate="visible"
+			animate={inView ? "visible" : "hidden"}
 			className={className}
 		>
 			{words.map((word: any, index: any) => (
