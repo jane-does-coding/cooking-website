@@ -2,8 +2,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { IoMdClose } from "react-icons/io";
 
 interface RecipeData {
 	title: string;
@@ -17,8 +16,8 @@ const CreateRecipe: React.FC = () => {
 	const [data, setData] = useState<RecipeData>({
 		title: "",
 		description: "",
-		ingredients: [""],
-		steps: [""],
+		ingredients: ["", ""], // Two fields by default
+		steps: ["", ""], // Two fields by default
 		extraInfo: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +47,14 @@ const CreateRecipe: React.FC = () => {
 		}));
 	};
 
+	const handleRemoveField = (type: keyof RecipeData, index: number) => {
+		setData((prevData) => {
+			const newArray = [...(prevData[type] as string[])];
+			newArray.splice(index, 1);
+			return { ...prevData, [type]: newArray };
+		});
+	};
+
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setIsLoading(true);
@@ -55,15 +62,17 @@ const CreateRecipe: React.FC = () => {
 		// Simulate a successful form submission
 		setTimeout(() => {
 			setIsLoading(false);
+			console.log(data);
 			toast.success("Recipe created successfully");
-			router.push("/");
+			/* 			router.push("/");
+			 */
 		}, 2000);
 	};
 
 	return (
-		<div className="w-[100vw] h-[100vh] mt-8 flex items-center justify-center">
+		<div className="w-[100vw] min-h-[100vh] mt-8 flex items-center justify-center">
 			<div className="w-[70vw] h-fit rounded-xl bg-neutral-900 px-8 py-8">
-				<h1 className="text-[2rem] mx-auto mb-8 w-fit text-center text-white">
+				<h1 className="text-[2.5rem] mx-auto mb-8 w-fit text-center text-white slovensko">
 					Create Recipe
 				</h1>
 				<form onSubmit={handleSubmit} className="gap-2 flex flex-col">
@@ -100,9 +109,11 @@ const CreateRecipe: React.FC = () => {
 					</div>
 
 					<div className="w-full my-1">
-						<label className="text-md text-white">Ingredients</label>
+						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
+							Ingredients
+						</label>
 						{data.ingredients.map((ingredient, index) => (
-							<div key={index} className="w-full relative my-1">
+							<div key={index} className="w-full relative my-1 flex">
 								<input
 									type="text"
 									value={ingredient}
@@ -110,9 +121,23 @@ const CreateRecipe: React.FC = () => {
 										handleArrayChange("ingredients", index, e.target.value)
 									}
 									disabled={isLoading}
-									placeholder={`Ingredient ${index + 1}`}
-									className="peer w-full p-3 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+									required
+									placeholder=" "
+									className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
 								/>
+								<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+									Ingredient {index + 1}
+								</label>
+								{data.ingredients.length > 2 && (
+									<button
+										type="button"
+										onClick={() => handleRemoveField("ingredients", index)}
+										className="ml-2 p-2 bg-neutral-950 text-white rounded-md"
+										disabled={isLoading}
+									>
+										<IoMdClose size={24} />
+									</button>
+								)}
 							</div>
 						))}
 						<button
@@ -126,19 +151,35 @@ const CreateRecipe: React.FC = () => {
 					</div>
 
 					<div className="w-full my-1">
-						<label className="text-md text-white">Recipe Steps</label>
+						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
+							Recipe Steps
+						</label>
 						{data.steps.map((step, index) => (
-							<div key={index} className="w-full relative my-1">
+							<div key={index} className="w-full relative my-1 flex">
 								<textarea
 									value={step}
 									onChange={(e) =>
 										handleArrayChange("steps", index, e.target.value)
 									}
 									disabled={isLoading}
-									placeholder={`Step ${index + 1}`}
-									className="peer w-full p-3 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+									required
+									placeholder=" "
+									className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
 									rows={2}
 								/>
+								<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+									Step {index + 1}
+								</label>
+								{data.steps.length > 2 && (
+									<button
+										type="button"
+										onClick={() => handleRemoveField("steps", index)}
+										className="ml-2 p-2 bg-neutral-950 text-white rounded-md"
+										disabled={isLoading}
+									>
+										<IoMdClose size={24} />
+									</button>
+								)}
 							</div>
 						))}
 						<button
@@ -152,25 +193,19 @@ const CreateRecipe: React.FC = () => {
 					</div>
 
 					<div className="w-full relative my-1">
-						<label className="text-md text-white">Extra Info</label>
 						<textarea
 							id="extraInfo"
 							disabled={isLoading}
 							value={data.extraInfo}
 							onChange={handleChange}
-							placeholder="Any additional information or tips..."
-							className="peer w-full p-3 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+							required
+							placeholder=" "
+							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
 							rows={2}
 						/>
-					</div>
-
-					<div className="w-full relative my-1 p-2 text-white">
-						<Label htmlFor="picture">Picture</Label>
-						<Input
-							id="picture"
-							type="file"
-							className="h-12 pt-3 bg-neutral-800"
-						/>
+						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+							Extra Info
+						</label>
 					</div>
 
 					<button

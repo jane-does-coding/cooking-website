@@ -4,29 +4,6 @@ import { perspective, slideIn } from "./anim";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export const no_user_links = [
-	{
-		title: "Home",
-		href: "/",
-	},
-	{
-		title: "Signup",
-		href: "/register",
-	},
-	{
-		title: "Login",
-		href: "/login",
-	},
-	{
-		title: "About",
-		href: "/about",
-	},
-	{
-		title: "Contact",
-		href: "/contact",
-	},
-];
-
 export default function Index({ currentUser }) {
 	const router = useRouter();
 
@@ -68,7 +45,7 @@ export default function Index({ currentUser }) {
 								initial="initial"
 								animate="enter"
 								exit="exit"
-								onClick={() => router.push("/")}
+								onClick={() => router.push("/create")}
 							>
 								<a>Create a recipe</a>
 							</motion.button>
