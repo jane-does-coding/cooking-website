@@ -35,7 +35,7 @@ const CategoriesCarousel = () => {
 							initial={{ opacity: 0, y: 50 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.5, delay: index * 0.1 }}
-							className="w-1/5 min-w-[120px] max-w-[225px] aspect-[1] mx-1"
+							className="w-1/5 min-w-[120px] max-w-[150px] 2xl:max-w-[225px] aspect-[1] mx-1"
 						>
 							<CarouselItem className="w-full h-full">
 								<Card className="relative rounded-full overflow-hidden border-none">

@@ -13,28 +13,36 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-/* ADD AMOUNT OF INGREDIENT FIELD */
+// Define the structure for each ingredient
+interface IngredientData {
+	name: string;
+	amount: string;
+}
 
-/* ADD ESTIMATED TIME */
-
-/* ADD ESTIMATED SERVING PORTION */
-
+// Update RecipeData to include ingredients with names and amounts
 interface RecipeData {
 	title: string;
 	description: string;
-	ingredients: string[];
+	ingredients: IngredientData[];
 	steps: string[];
 	extraInfo: string;
-	category: string; // Add category field
+	category: string;
+	servingSize: number;
+	expectedTime: string;
 }
 
 const CreateRecipe: React.FC = () => {
 	const [data, setData] = useState<RecipeData>({
 		title: "",
 		description: "",
-		ingredients: ["", ""], // Two fields by default
+		ingredients: [
+			{ name: "", amount: "" },
+			{ name: "", amount: "" },
+		], // Default one ingredient with empty name and amount
 		steps: ["", ""], // Two fields by default
 		extraInfo: "",
+		servingSize: 1, // Default serving size
+		expectedTime: "", // Initialize expected time
 		category: "", // Initialize category
 	});
 	const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +53,29 @@ const CreateRecipe: React.FC = () => {
 	) => {
 		const { id, value } = e.target;
 		setData((prevData) => ({ ...prevData, [id]: value }));
+	};
+
+	const handleIngredientChange = (
+		index: number,
+		type: keyof IngredientData,
+		value: string
+	) => {
+		const newIngredients = [...data.ingredients];
+		newIngredients[index][type] = value;
+		setData((prevData) => ({ ...prevData, ingredients: newIngredients }));
+	};
+
+	const handleAddIngredient = () => {
+		setData((prevData) => ({
+			...prevData,
+			ingredients: [...prevData.ingredients, { name: "", amount: "" }],
+		}));
+	};
+
+	const handleRemoveIngredient = (index: number) => {
+		const newIngredients = [...data.ingredients];
+		newIngredients.splice(index, 1);
+		setData((prevData) => ({ ...prevData, ingredients: newIngredients }));
 	};
 
 	const handleArrayChange = (
@@ -74,6 +105,14 @@ const CreateRecipe: React.FC = () => {
 
 	const handleCategoryChange = (value: string) => {
 		setData((prevData) => ({ ...prevData, category: value }));
+	};
+
+	const handleServingSizeChange = (value: string) => {
+		setData((prevData) => ({ ...prevData, servingSize: parseInt(value) }));
+	};
+
+	const handleExpectedTimeChange = (value: string) => {
+		setData((prevData) => ({ ...prevData, expectedTime: value }));
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -130,49 +169,106 @@ const CreateRecipe: React.FC = () => {
 
 					{/* CATEGORY DROPDOWN */}
 					<div className="w-full relative my-1">
-						<div className="w-full relative my-1">
-							<Select onValueChange={handleCategoryChange}>
-								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3">
-									<SelectValue placeholder="Select a category" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectGroup>
-										<SelectLabel>Categories</SelectLabel>
-										<SelectItem value="Appetizer">Appetizer</SelectItem>
-										<SelectItem value="Main Course">Main Course</SelectItem>
-										<SelectItem value="Dessert">Dessert</SelectItem>
-										<SelectItem value="Beverage">Beverage</SelectItem>
-										<SelectItem value="Snack">Snack</SelectItem>
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-						</div>
+						<Select onValueChange={handleCategoryChange}>
+							<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3">
+								<SelectValue placeholder="Select a category" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									<SelectLabel>Categories</SelectLabel>
+									<SelectItem value="Appetizer">Appetizer</SelectItem>
+									<SelectItem value="Main Course">Main Course</SelectItem>
+									<SelectItem value="Dessert">Dessert</SelectItem>
+									<SelectItem value="Beverage">Beverage</SelectItem>
+									<SelectItem value="Snack">Snack</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
 					</div>
 
+					{/* SERVING SIZE DROPDOWN */}
+					<div className="w-full relative my-1">
+						<Select onValueChange={handleServingSizeChange}>
+							<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3">
+								<SelectValue placeholder="Select serving size" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									<SelectLabel>Serving Size</SelectLabel>
+									{[...Array(12)].map((_, i) => (
+										<SelectItem key={i + 1} value={(i + 1).toString()}>
+											{i + 1}
+										</SelectItem>
+									))}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</div>
+
+					{/* EXPECTED TIME INPUT */}
+					<div className="w-full relative my-1">
+						<input
+							id="expectedTime"
+							type="time"
+							disabled={isLoading}
+							value={data.expectedTime}
+							onChange={(e) => handleExpectedTimeChange(e.target.value)}
+							required
+							placeholder=" "
+							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+							step="1"
+						/>
+						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+							Expected Time (hh:mm)
+						</label>
+					</div>
+
+					{/* INGREDIENTS SECTION */}
 					<div className="w-full my-1">
 						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
 							Ingredients
 						</label>
 						{data.ingredients.map((ingredient, index) => (
-							<div key={index} className="w-full relative my-1 flex">
-								<input
-									type="text"
-									value={ingredient}
-									onChange={(e) =>
-										handleArrayChange("ingredients", index, e.target.value)
-									}
-									disabled={isLoading}
-									required
-									placeholder=" "
-									className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-								/>
-								<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-									Ingredient {index + 1}
-								</label>
+							<div
+								key={index}
+								className="w-full relative my-1 flex space-x-2 gap-2"
+							>
+								<div className="w-2/3 relative my-1">
+									<input
+										type="text"
+										value={ingredient.name}
+										onChange={(e) =>
+											handleIngredientChange(index, "name", e.target.value)
+										}
+										disabled={isLoading}
+										required
+										placeholder=" "
+										className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+									/>
+									<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+										Ingredient
+									</label>
+								</div>
+								<div className="w-1/3 relative my-1">
+									<input
+										type="text"
+										value={ingredient.amount}
+										onChange={(e) =>
+											handleIngredientChange(index, "amount", e.target.value)
+										}
+										disabled={isLoading}
+										required
+										placeholder=" "
+										className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+									/>
+									<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+										Amount
+									</label>
+								</div>
 								{data.ingredients.length > 2 && (
 									<button
 										type="button"
-										onClick={() => handleRemoveField("ingredients", index)}
+										onClick={() => handleRemoveIngredient(index)}
 										className="ml-2 p-2 bg-neutral-950 text-white rounded-md"
 										disabled={isLoading}
 									>
@@ -183,7 +279,7 @@ const CreateRecipe: React.FC = () => {
 						))}
 						<button
 							type="button"
-							onClick={() => handleAddField("ingredients")}
+							onClick={handleAddIngredient}
 							className="w-full p-2 mt-2 bg-neutral-950 text-white rounded-md"
 							disabled={isLoading}
 						>
@@ -191,6 +287,7 @@ const CreateRecipe: React.FC = () => {
 						</button>
 					</div>
 
+					{/* STEPS SECTION */}
 					<div className="w-full my-1">
 						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
 							Recipe Steps
