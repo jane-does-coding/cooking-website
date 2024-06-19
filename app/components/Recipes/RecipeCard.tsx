@@ -9,7 +9,8 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import RecipeCardActions from "./RecipeCardActions";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion, useInView } from "framer-motion"; // Import Framer Motion and useInView
+import { useRef } from "react"; // Import useRef
 
 const fadeInVariant = {
 	hidden: { opacity: 0, y: 20 },
@@ -17,25 +18,38 @@ const fadeInVariant = {
 		opacity: 1,
 		y: 0,
 		transition: {
-			delay: index * 0.09, // Stagger delay
+			delay: index * 0.06, // Stagger delay
 			duration: 0.5, // Animation duration
 		},
 	}),
 };
 
 export default function RecipeCard() {
+	// Create refs for each section
+	const cardRef = useRef(null);
+	const headerRef = useRef(null);
+	const contentRef = useRef(null);
+	const footerRef = useRef(null);
+
+	// Use useInView to track visibility
+	const cardInView = useInView(cardRef, { once: true });
+	const headerInView = useInView(headerRef, { once: true });
+	const contentInView = useInView(contentRef, { once: true });
+	const footerInView = useInView(footerRef, { once: true });
+
 	return (
-		<Card className="w-full">
+		<Card className="w-full" ref={cardRef}>
 			<motion.div
+				ref={headerRef}
 				initial="hidden"
-				animate="visible"
-				custom={0} // Custom index for staggered delay
+				animate={cardInView ? "visible" : "hidden"}
+				custom={0}
 				variants={fadeInVariant}
 			>
 				<CardHeader>
 					<motion.div
 						initial="hidden"
-						animate="visible"
+						animate={headerInView ? "visible" : "hidden"}
 						custom={1}
 						variants={fadeInVariant}
 					>
@@ -43,7 +57,7 @@ export default function RecipeCard() {
 					</motion.div>
 					<motion.div
 						initial="hidden"
-						animate="visible"
+						animate={headerInView ? "visible" : "hidden"}
 						custom={2}
 						variants={fadeInVariant}
 					>
@@ -55,8 +69,9 @@ export default function RecipeCard() {
 			</motion.div>
 
 			<motion.div
+				ref={contentRef}
 				initial="hidden"
-				animate="visible"
+				animate={contentInView ? "visible" : "hidden"}
 				custom={3}
 				variants={fadeInVariant}
 			>
@@ -66,15 +81,16 @@ export default function RecipeCard() {
 			</motion.div>
 
 			<motion.div
+				ref={footerRef}
 				initial="hidden"
-				animate="visible"
+				animate={footerInView ? "visible" : "hidden"}
 				custom={4}
 				variants={fadeInVariant}
 			>
 				<CardFooter className="flex justify-between">
 					<motion.div
 						initial="hidden"
-						animate="visible"
+						animate={footerInView ? "visible" : "hidden"}
 						custom={5}
 						variants={fadeInVariant}
 					>
@@ -82,7 +98,7 @@ export default function RecipeCard() {
 					</motion.div>
 					<motion.div
 						initial="hidden"
-						animate="visible"
+						animate={footerInView ? "visible" : "hidden"}
 						custom={6}
 						variants={fadeInVariant}
 						className="flex gap-4 items-center"

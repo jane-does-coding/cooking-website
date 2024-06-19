@@ -3,6 +3,15 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 /* ADD CATEGORIES DROPDOWN */
 
@@ -12,6 +21,7 @@ interface RecipeData {
 	ingredients: string[];
 	steps: string[];
 	extraInfo: string;
+	category: string; // Add category field
 }
 
 const CreateRecipe: React.FC = () => {
@@ -21,6 +31,7 @@ const CreateRecipe: React.FC = () => {
 		ingredients: ["", ""], // Two fields by default
 		steps: ["", ""], // Two fields by default
 		extraInfo: "",
+		category: "", // Initialize category
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
@@ -57,6 +68,10 @@ const CreateRecipe: React.FC = () => {
 		});
 	};
 
+	const handleCategoryChange = (value: string) => {
+		setData((prevData) => ({ ...prevData, category: value }));
+	};
+
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setIsLoading(true);
@@ -66,8 +81,7 @@ const CreateRecipe: React.FC = () => {
 			setIsLoading(false);
 			console.log(data);
 			toast.success("Recipe created successfully");
-			/* 			router.push("/");
-			 */
+			/* router.push("/"); */
 		}, 2000);
 	};
 
@@ -108,6 +122,27 @@ const CreateRecipe: React.FC = () => {
 						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
 							Description
 						</label>
+					</div>
+
+					{/* CATEGORY DROPDOWN */}
+					<div className="w-full relative my-1">
+						<div className="w-full relative my-1">
+							<Select onValueChange={handleCategoryChange}>
+								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3">
+									<SelectValue placeholder="Select a category" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										<SelectLabel>Categories</SelectLabel>
+										<SelectItem value="Appetizer">Appetizer</SelectItem>
+										<SelectItem value="Main Course">Main Course</SelectItem>
+										<SelectItem value="Dessert">Dessert</SelectItem>
+										<SelectItem value="Beverage">Beverage</SelectItem>
+										<SelectItem value="Snack">Snack</SelectItem>
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</div>
 					</div>
 
 					<div className="w-full my-1">

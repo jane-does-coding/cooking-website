@@ -18,6 +18,16 @@
 - Search Recipe
 - Grid/List View
 
+## Pages
+
+- landing
+- about
+- recipes
+- create
+- register
+- login
+- recipe
+
 ## Run Locally
 
 Clone the project

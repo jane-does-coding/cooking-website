@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import RecipeCard from "./RecipeCard";
 
 const CardsGrid = () => {
-	const numberOfCards = 10; // Number of cards to display
+	const numberOfCards = 20; // Number of cards to display
 
 	const cardVariants = {
 		hidden: { opacity: 0, y: 20 },
