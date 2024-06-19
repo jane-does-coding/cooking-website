@@ -1,6 +1,6 @@
 import LandingCarousel from "./components/Landing/LandingCarousel";
-import AnimatedTextWord from "./components/AnimatedTextWord";
-import AnimatedTextCharacter from "./components/AnimatedTextCharacter";
+import AnimatedTextWord from "./components/Text/AnimatedTextWord";
+import AnimatedTextCharacter from "./components/Text/AnimatedTextCharacter";
 
 export default function Home() {
 	return (
