@@ -1,6 +1,6 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion"; // Import motion and useInView
+import React from "react";
+import { motion } from "framer-motion"; // Import motion
 import Recommendation from "./Recommendation";
 
 const Recommended = () => {
@@ -28,12 +28,6 @@ const Recommended = () => {
 		},
 	};
 
-	// Create refs and states for each recommendation
-	const refs = Array.from({ length: numberOfRecommendations }, () =>
-		useRef(null)
-	);
-	const inViews = refs.map((ref) => useInView(ref, { once: true }));
-
 	return (
 		<div className="w-[25vw] xl:w-[30vw] p-4 pl-8 gap-4 border-l-2 border-neutral-800 h-screen overflow-auto flex flex-col">
 			<motion.h2
@@ -47,11 +41,10 @@ const Recommended = () => {
 			{Array.from({ length: numberOfRecommendations }).map((_, index) => {
 				return (
 					<motion.div
-						ref={refs[index]} // Attach the ref to the motion div
 						key={index}
 						custom={index} // Pass index to variants
 						initial="hidden"
-						animate={inViews[index] ? "visible" : "hidden"} // Animate only if in view
+						animate="visible" // Animate directly on mount
 						variants={recommendationVariants}
 						className="mb-4"
 					>
