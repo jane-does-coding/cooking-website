@@ -13,7 +13,11 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-/* ADD CATEGORIES DROPDOWN */
+/* ADD AMOUNT OF INGREDIENT FIELD */
+
+/* ADD ESTIMATED TIME */
+
+/* ADD ESTIMATED SERVING PORTION */
 
 interface RecipeData {
 	title: string;

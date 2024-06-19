@@ -39,11 +39,13 @@ const RecipeDetails = () => {
 				</motion.div>
 				<p className="text-lg mb-4">
 					This is a wonderful recipe description. Lorem ipsum dolor sit amet,
-					consectetur adipiscing elit. Nullam ac tortor risus.
+					consectetur adipiscing elit. Nullam ac tortor risus. Lorem ipsum dolor
+					sit amet consectetur, adipisicing elit. Ipsa tempore voluptatem odit
+					cumque voluptas earum, dolores error veniam maiores tempora.
 				</p>
 
 				{/* SECTION */}
-				<div className="my-4 mb-6">
+				<div className="my-8 mb-14">
 					<AnimatedTextWord
 						className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4"
 						text={"Ingredients"}
