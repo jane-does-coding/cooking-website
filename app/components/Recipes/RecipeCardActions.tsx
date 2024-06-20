@@ -44,7 +44,7 @@ const RecipeCardActions = () => {
 
 	return (
 		<div className="flex gap-4">
-			<div className="flex gap-2 items-center justify-center text-sm text-neutral-300">
+			<div className="flex gap-2 items-center justify-center text-md text-neutral-300 jura ">
 				<button
 					onClick={toggleSaved}
 					className={animateSave ? "scale-animate" : ""}
@@ -57,7 +57,7 @@ const RecipeCardActions = () => {
 				</button>
 				14
 			</div>
-			<div className="flex gap-2 items-center justify-center text-sm text-neutral-300">
+			<div className="flex gap-2 items-center justify-center text-md text-neutral-300 jura">
 				<button
 					onClick={toggleLiked}
 					className={animateLike ? "scale-animate" : ""}

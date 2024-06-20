@@ -12,6 +12,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 // Define the structure for each ingredient
 interface IngredientData {
@@ -167,60 +168,62 @@ const CreateRecipe: React.FC = () => {
 						</label>
 					</div>
 
-					{/* CATEGORY DROPDOWN */}
-					<div className="w-full relative my-1">
-						<Select onValueChange={handleCategoryChange}>
-							<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3">
-								<SelectValue placeholder="Select a category" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									<SelectLabel>Categories</SelectLabel>
-									<SelectItem value="Appetizer">Appetizer</SelectItem>
-									<SelectItem value="Main Course">Main Course</SelectItem>
-									<SelectItem value="Dessert">Dessert</SelectItem>
-									<SelectItem value="Beverage">Beverage</SelectItem>
-									<SelectItem value="Snack">Snack</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-					</div>
+					<div className="flex gap-2 items-center justify-center h-fit">
+						{/* CATEGORY DROPDOWN */}
+						<div className="w-full relative my-1">
+							<Select onValueChange={handleCategoryChange}>
+								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
+									<SelectValue placeholder="Select a category" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										<SelectLabel>Categories</SelectLabel>
+										<SelectItem value="Appetizer">Appetizer</SelectItem>
+										<SelectItem value="Main Course">Main Course</SelectItem>
+										<SelectItem value="Dessert">Dessert</SelectItem>
+										<SelectItem value="Beverage">Beverage</SelectItem>
+										<SelectItem value="Snack">Snack</SelectItem>
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</div>
 
-					{/* SERVING SIZE DROPDOWN */}
-					<div className="w-full relative my-1">
-						<Select onValueChange={handleServingSizeChange}>
-							<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3">
-								<SelectValue placeholder="Select serving size" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									<SelectLabel>Serving Size</SelectLabel>
-									{[...Array(12)].map((_, i) => (
-										<SelectItem key={i + 1} value={(i + 1).toString()}>
-											{i + 1}
-										</SelectItem>
-									))}
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-					</div>
+						{/* SERVING SIZE DROPDOWN */}
+						<div className="w-full relative my-1">
+							<Select onValueChange={handleServingSizeChange}>
+								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
+									<SelectValue placeholder="Select serving size" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										<SelectLabel>Serving Size</SelectLabel>
+										{[...Array(12)].map((_, i) => (
+											<SelectItem key={i + 1} value={(i + 1).toString()}>
+												{i + 1}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</div>
 
-					{/* EXPECTED TIME INPUT */}
-					<div className="w-full relative my-1">
-						<input
-							id="expectedTime"
-							type="time"
-							disabled={isLoading}
-							value={data.expectedTime}
-							onChange={(e) => handleExpectedTimeChange(e.target.value)}
-							required
-							placeholder=" "
-							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-							step="1"
-						/>
-						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-							Expected Time (hh:mm)
-						</label>
+						{/* EXPECTED TIME INPUT */}
+						<div className="w-full relative h-full">
+							<input
+								id="expectedTime"
+								type="text"
+								disabled={isLoading}
+								value={data.expectedTime}
+								onChange={(e) => handleExpectedTimeChange(e.target.value)}
+								required
+								placeholder=" "
+								className="peer w-full p-4 pb-6 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white h-full"
+								step="1"
+							/>
+							<label className="absolute text-md  duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-neutral-300">
+								Expected Time (hh:mm)
+							</label>
+						</div>
 					</div>
 
 					{/* INGREDIENTS SECTION */}
