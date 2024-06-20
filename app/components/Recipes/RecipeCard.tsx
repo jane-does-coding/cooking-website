@@ -26,6 +26,8 @@ const fadeInVariant = {
 };
 
 export default function RecipeCard({ recipe }: any) {
+	console.log(recipe);
+
 	const cardRef = useRef(null);
 	const headerRef = useRef(null);
 	const contentRef = useRef(null);
@@ -54,7 +56,7 @@ export default function RecipeCard({ recipe }: any) {
 						custom={1}
 						variants={fadeInVariant}
 					>
-						<CardTitle>Create project</CardTitle>
+						<CardTitle>{recipe.title}</CardTitle>
 					</motion.div>
 					<motion.div
 						initial="hidden"
@@ -62,9 +64,7 @@ export default function RecipeCard({ recipe }: any) {
 						custom={2}
 						variants={fadeInVariant}
 					>
-						<CardDescription>
-							Deploy your new project in one-click.
-						</CardDescription>
+						<CardDescription>{recipe.oneline}</CardDescription>
 					</motion.div>
 				</CardHeader>
 			</motion.div>
@@ -95,7 +95,7 @@ export default function RecipeCard({ recipe }: any) {
 						custom={5}
 						variants={fadeInVariant}
 					>
-						<RecipeCardActions />
+						<RecipeCardActions likes={recipe.likes} saved={recipe.saved} />
 					</motion.div>
 					<motion.div
 						initial="hidden"
@@ -105,7 +105,9 @@ export default function RecipeCard({ recipe }: any) {
 						className="flex gap-4 items-center"
 					>
 						<Button variant="outline">Share</Button>
-						<Button onClick={() => router.push("/recipes/35")}>View</Button>
+						<Button onClick={() => router.push(`/recipes/${recipe.id}`)}>
+							View
+						</Button>
 					</motion.div>
 				</CardFooter>
 			</motion.div>

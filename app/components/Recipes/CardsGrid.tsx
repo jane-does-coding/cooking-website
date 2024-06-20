@@ -18,6 +18,29 @@ const CardsGrid = () => {
 		}),
 	};
 
+	const recipe = {
+		id: 23232,
+		userId: 32423,
+		title: "Recipe 1",
+		oneline: "Really nice recipe!",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores, impedit?",
+		ingredients: [
+			{ name: "Sugar", amount: "1 tbs" },
+			{ name: "Starwberries", amount: "1 cup" },
+			{ name: "Milk", amount: "1 cup" },
+			{ name: "Ice Cream", amount: "1 scoop" },
+		],
+		steps: ["", ""],
+		extraInfo: "",
+		servingSize: 1,
+		expectedTime: "",
+		category: "",
+		likes: [3232, 4324234, 2342342, 343],
+		saved: [3232, 4324234, 2342342, 343, 324234, 3423423, 3423],
+		createdAt: "",
+	};
+
 	return (
 		<div className="w-[96vw] mx-auto ml-[2vw] md:w-[90vw] md:ml-[5vw] gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 			{Array.from({ length: numberOfCards }).map((_, index) => (
@@ -28,7 +51,7 @@ const CardsGrid = () => {
 					animate="visible"
 					variants={cardVariants}
 				>
-					<RecipeCard />
+					<RecipeCard recipe={recipe} />
 				</motion.div>
 			))}
 		</div>

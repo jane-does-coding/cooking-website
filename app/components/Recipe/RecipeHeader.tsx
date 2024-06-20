@@ -18,7 +18,7 @@ const RecipeHeader = () => {
 				<p className="text-[1.15rem]">Lorem Ipsum</p>
 				<p className="text-[1rem] text-neutral-400 jura">July 15th, 2024</p>
 			</div>
-			<RecipeCardActions />
+			<RecipeCardActions likes={[12, 12, 1232]} saved={[12, 12, 1232]} />
 		</div>
 	);
 };

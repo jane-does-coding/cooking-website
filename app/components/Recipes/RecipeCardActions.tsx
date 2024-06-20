@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { BsBookmarkHeart, BsBookmarkHeartFill } from "react-icons/bs";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
-const RecipeCardActions = () => {
+const RecipeCardActions = ({ likes: likesIds, saved: savedIds }: any) => {
 	const [saved, setSaved] = useState(false);
 	const [liked, setLiked] = useState(true);
 	const [animateLike, setAnimateLike] = useState(false);
@@ -53,7 +53,7 @@ const RecipeCardActions = () => {
 						<BsBookmarkHeart size={24} className="text-white" />
 					)}
 				</button>
-				14
+				{savedIds.length + 1}
 			</div>
 			<div className="flex gap-2 items-center justify-center text-md text-neutral-300 jura">
 				<button
@@ -66,7 +66,7 @@ const RecipeCardActions = () => {
 						<FaRegHeart size={24} className="text-white" />
 					)}
 				</button>
-				35
+				{likesIds.length + 1}
 			</div>
 		</div>
 	);
