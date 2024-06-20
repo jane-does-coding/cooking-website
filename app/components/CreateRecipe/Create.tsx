@@ -13,6 +13,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 // Define the structure for each ingredient
 interface IngredientData {
@@ -31,6 +32,7 @@ interface RecipeData {
 	category: string;
 	servingSize: number;
 	expectedTime: string;
+	imageUrl: string;
 }
 
 const CreateRecipe: React.FC = () => {
@@ -47,6 +49,7 @@ const CreateRecipe: React.FC = () => {
 		servingSize: 1,
 		expectedTime: "",
 		category: "",
+		imageUrl: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
@@ -122,11 +125,33 @@ const CreateRecipe: React.FC = () => {
 		event.preventDefault();
 		setIsLoading(true);
 
-		setTimeout(() => {
+		try {
+			// Make the POST request using Axios
+			const response = await axios.post("/api/recipes", data, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			// Check if the response status is 200 (OK)
+			if (response.status === 200) {
+				toast.success("Recipe created successfully");
+				router.push("/"); // Navigate to home or another page after successful creation
+			} else {
+				// Handle unexpected response status
+				toast.error("Failed to create recipe");
+			}
+		} catch (error: any) {
+			// Check if the error has a response property (Axios error object)
+			if (error.response) {
+				toast.error(`Failed to create recipe: ${error.response.data.message}`);
+			} else {
+				console.error("An error occurred:", error);
+				toast.error("An error occurred while creating the recipe");
+			}
+		} finally {
 			setIsLoading(false);
-			console.log(data);
-			toast.success("Recipe created successfully");
-		}, 2000);
+		}
 	};
 
 	return (
@@ -154,7 +179,7 @@ const CreateRecipe: React.FC = () => {
 
 					<div className="w-full relative my-1">
 						<input
-							id="title"
+							id="oneline"
 							type="text"
 							disabled={isLoading}
 							value={data.oneline}
