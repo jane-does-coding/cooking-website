@@ -11,6 +11,7 @@ import {
 import RecipeCardActions from "./RecipeCardActions";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const fadeInVariant = {
 	hidden: { opacity: 0, y: 20 },
@@ -24,7 +25,7 @@ const fadeInVariant = {
 	}),
 };
 
-export default function RecipeCard() {
+export default function RecipeCard({ recipe }: any) {
 	const cardRef = useRef(null);
 	const headerRef = useRef(null);
 	const contentRef = useRef(null);
@@ -34,6 +35,8 @@ export default function RecipeCard() {
 	const headerInView = useInView(headerRef, { once: true });
 	const contentInView = useInView(contentRef, { once: true });
 	const footerInView = useInView(footerRef, { once: true });
+
+	const router = useRouter();
 
 	return (
 		<Card className="w-full" ref={cardRef}>
@@ -102,7 +105,7 @@ export default function RecipeCard() {
 						className="flex gap-4 items-center"
 					>
 						<Button variant="outline">Share</Button>
-						<Button>View</Button>
+						<Button onClick={() => router.push("/recipes/35")}>View</Button>
 					</motion.div>
 				</CardFooter>
 			</motion.div>
