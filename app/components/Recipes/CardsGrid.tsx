@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import RecipeCard from "./RecipeCard";
 
-const CardsGrid = () => {
+const CardsGrid = ({ recipes }: any) => {
 	const numberOfCards = 20;
 
 	const cardVariants = {
@@ -17,7 +17,7 @@ const CardsGrid = () => {
 			},
 		}),
 	};
-
+	/* 
 	const recipe = {
 		id: 23232,
 		userId: 32423,
@@ -40,10 +40,10 @@ const CardsGrid = () => {
 		saved: [3232, 4324234, 2342342, 343, 324234, 3423423, 3423],
 		createdAt: "",
 	};
-
+ */
 	return (
 		<div className="w-[96vw] mx-auto ml-[2vw] md:w-[90vw] md:ml-[5vw] gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-			{Array.from({ length: numberOfCards }).map((_, index) => (
+			{recipes.map((recipe: any, index: any) => (
 				<motion.div
 					key={index}
 					custom={index}

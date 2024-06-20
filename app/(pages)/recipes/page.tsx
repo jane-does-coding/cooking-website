@@ -1,9 +1,12 @@
+import getRecipes from "@/app/actions/getRecipes";
 import CardsGrid from "@/app/components/Recipes/CardsGrid";
 import CategoriesGrid from "@/app/components/Recipes/CategoriesGrid";
 import React from "react";
 
-const page = () => {
+const page = async () => {
 	/* FETCH RECIPES */
+	const recipes = await getRecipes();
+	console.log(recipes);
 
 	return (
 		<div className="pt-10">
@@ -11,7 +14,7 @@ const page = () => {
 				Explore Recipes
 			</h1>
 			<CategoriesGrid />
-			<CardsGrid />
+			<CardsGrid recipes={recipes} />
 		</div>
 	);
 };

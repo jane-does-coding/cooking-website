@@ -138,11 +138,9 @@ const CreateRecipe: React.FC = () => {
 				toast.success("Recipe created successfully");
 				router.push("/"); // Navigate to home or another page after successful creation
 			} else {
-				// Handle unexpected response status
 				toast.error("Failed to create recipe");
 			}
 		} catch (error: any) {
-			// Check if the error has a response property (Axios error object)
 			if (error.response) {
 				toast.error(`Failed to create recipe: ${error.response.data.message}`);
 			} else {

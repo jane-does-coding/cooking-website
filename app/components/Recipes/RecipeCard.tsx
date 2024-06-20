@@ -26,8 +26,6 @@ const fadeInVariant = {
 };
 
 export default function RecipeCard({ recipe }: any) {
-	console.log(recipe);
-
 	const cardRef = useRef(null);
 	const headerRef = useRef(null);
 	const contentRef = useRef(null);
