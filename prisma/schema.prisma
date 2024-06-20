@@ -17,3 +17,29 @@ model User {
   updatedAt      DateTime @updatedAt
   favoriteIds    String[] @db.ObjectId
 }
+
+model Recipe {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  oneline        String
+  description    String
+  steps          String[]       // List of steps for the recipe
+  ingredients    Ingredient[]   @relation("RecipeIngredients")
+  extraInfo      String
+  servingSize    Int
+  expectedTime   String
+  category       String
+  imageUrl       String         // URL to the image of the recipe
+  likes          String[]       @db.ObjectId // List of user IDs who liked the recipe
+  saved          String[]       @db.ObjectId // List of user IDs who saved the recipe
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Ingredient {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  amount       String
+  recipe       Recipe    @relation("RecipeIngredients", fields: [recipeId], references: [id])
+  recipeId     String    @db.ObjectId
+}
