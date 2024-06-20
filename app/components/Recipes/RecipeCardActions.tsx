@@ -12,33 +12,31 @@ const RecipeCardActions = () => {
 
 	const toggleSaved = () => {
 		setSaved(!saved);
-		setAnimateSave(true); // Trigger the save animation
+		setAnimateSave(true);
 	};
 
 	const toggleLiked = () => {
 		setLiked(!liked);
-		setAnimateLike(true); // Trigger the like animation
+		setAnimateLike(true);
 	};
 
 	useEffect(() => {
-		// Remove the like animation class after the animation ends
 		if (animateLike) {
 			const timer = setTimeout(() => {
 				setAnimateLike(false);
-			}, 400); // Duration should match the CSS animation duration
+			}, 400);
 
-			return () => clearTimeout(timer); // Clean up the timer on unmount
+			return () => clearTimeout(timer);
 		}
 	}, [animateLike]);
 
 	useEffect(() => {
-		// Remove the save animation class after the animation ends
 		if (animateSave) {
 			const timer = setTimeout(() => {
 				setAnimateSave(false);
-			}, 300); // Duration should match the CSS animation duration
+			}, 300);
 
-			return () => clearTimeout(timer); // Clean up the timer on unmount
+			return () => clearTimeout(timer);
 		}
 	}, [animateSave]);
 

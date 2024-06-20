@@ -2,7 +2,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-// Define the props interface
 interface AnimatedTextCharacterProps {
 	text: string;
 	className?: string;

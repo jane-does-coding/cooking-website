@@ -39,12 +39,12 @@ const CreateRecipe: React.FC = () => {
 		ingredients: [
 			{ name: "", amount: "" },
 			{ name: "", amount: "" },
-		], // Default one ingredient with empty name and amount
-		steps: ["", ""], // Two fields by default
+		],
+		steps: ["", ""],
 		extraInfo: "",
-		servingSize: 1, // Default serving size
-		expectedTime: "", // Initialize expected time
-		category: "", // Initialize category
+		servingSize: 1,
+		expectedTime: "",
+		category: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
@@ -120,12 +120,10 @@ const CreateRecipe: React.FC = () => {
 		event.preventDefault();
 		setIsLoading(true);
 
-		// Simulate a successful form submission
 		setTimeout(() => {
 			setIsLoading(false);
 			console.log(data);
 			toast.success("Recipe created successfully");
-			/* router.push("/"); */
 		}, 2000);
 	};
 
@@ -188,7 +186,6 @@ const CreateRecipe: React.FC = () => {
 							</Select>
 						</div>
 
-						{/* SERVING SIZE DROPDOWN */}
 						<div className="w-full relative my-1">
 							<Select onValueChange={handleServingSizeChange}>
 								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
@@ -207,7 +204,6 @@ const CreateRecipe: React.FC = () => {
 							</Select>
 						</div>
 
-						{/* EXPECTED TIME INPUT */}
 						<div className="w-full relative h-full">
 							<input
 								id="expectedTime"
@@ -226,7 +222,6 @@ const CreateRecipe: React.FC = () => {
 						</div>
 					</div>
 
-					{/* INGREDIENTS SECTION */}
 					<div className="w-full my-1">
 						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
 							Ingredients
@@ -290,7 +285,6 @@ const CreateRecipe: React.FC = () => {
 						</button>
 					</div>
 
-					{/* STEPS SECTION */}
 					<div className="w-full my-1">
 						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
 							Recipe Steps

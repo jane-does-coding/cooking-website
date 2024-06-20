@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
-import Input from "@/app/components/Input"; // Make sure Input component is correctly imported
+import Input from "@/app/components/Input";
 
 const Register = () => {
 	const [isLoading, setIsLoading] = useState(false);

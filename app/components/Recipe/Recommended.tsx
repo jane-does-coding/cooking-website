@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion"; // Import motion
+import { motion } from "framer-motion";
 import Recommendation from "./Recommendation";
 
 const Recommended = () => {
-	const numberOfRecommendations = 6; // Number of recommendations to display
+	const numberOfRecommendations = 6;
 
 	const recommendationVariants = {
 		hidden: { opacity: 0, y: 20 },
@@ -12,8 +12,8 @@ const Recommended = () => {
 			opacity: 1,
 			y: 0,
 			transition: {
-				delay: index * 0.1, // Stagger animation by 0.1 seconds for each recommendation
-				duration: 0.5, // Duration of the animation for each recommendation
+				delay: index * 0.1,
+				duration: 0.5,
 			},
 		}),
 	};
@@ -42,9 +42,9 @@ const Recommended = () => {
 				return (
 					<motion.div
 						key={index}
-						custom={index} // Pass index to variants
+						custom={index}
 						initial="hidden"
-						animate="visible" // Animate directly on mount
+						animate="visible"
 						variants={recommendationVariants}
 						className="mb-4"
 					>

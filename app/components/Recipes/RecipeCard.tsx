@@ -9,8 +9,8 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import RecipeCardActions from "./RecipeCardActions";
-import { motion, useInView } from "framer-motion"; // Import Framer Motion and useInView
-import { useRef } from "react"; // Import useRef
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const fadeInVariant = {
 	hidden: { opacity: 0, y: 20 },
@@ -18,20 +18,18 @@ const fadeInVariant = {
 		opacity: 1,
 		y: 0,
 		transition: {
-			delay: index * 0.06, // Stagger delay
-			duration: 0.5, // Animation duration
+			delay: index * 0.06,
+			duration: 0.5,
 		},
 	}),
 };
 
 export default function RecipeCard() {
-	// Create refs for each section
 	const cardRef = useRef(null);
 	const headerRef = useRef(null);
 	const contentRef = useRef(null);
 	const footerRef = useRef(null);
 
-	// Use useInView to track visibility
 	const cardInView = useInView(cardRef, { once: true });
 	const headerInView = useInView(headerRef, { once: true });
 	const contentInView = useInView(contentRef, { once: true });

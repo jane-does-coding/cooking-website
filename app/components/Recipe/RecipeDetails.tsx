@@ -1,11 +1,10 @@
 "use client";
 import AnimatedTextCharacter from "../Text/AnimatedTextCharacter";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
 import AnimatedTextWord from "../Text/AnimatedTextWord";
 import RecipeHeader from "./RecipeHeader";
 
 const RecipeDetails = () => {
-	// Define an array of ingredients
 	const ingredients = [
 		{ name: "Ingredient Name 1", amount: "50g" },
 		{ name: "Ingredient Name 1", amount: "50g" },
@@ -15,7 +14,6 @@ const RecipeDetails = () => {
 		{ name: "Ingredient Name 1", amount: "50g" },
 		{ name: "Ingredient Name 1", amount: "50g" },
 		{ name: "Ingredient Name 1", amount: "50g" },
-		// Add more ingredients as needed
 	];
 
 	const imageVariants = {
@@ -61,7 +59,6 @@ const RecipeDetails = () => {
 					cumque voluptas earum, dolores error veniam maiores tempora.
 				</p>
 
-				{/* SECTION */}
 				<div className="my-8 mt-[4rem] mb-14">
 					<AnimatedTextWord
 						className=" text-white mx-auto jura w-fit text-[2.25rem] text-center flex items-center justify-center mb-6"
@@ -170,8 +167,6 @@ const RecipeDetails = () => {
 					numquam eveniet exercitationem eum error corporis repellat aut,
 					delectus quidem similique eaque?
 				</p>
-
-				{/* Repeat the extra info and category sections as necessary */}
 
 				<h2 className="text-xl font-semibold mb-2">Category</h2>
 				<p className="mb-8">Main Course</p>

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import RecipeCard from "./RecipeCard";
 
 const CardsGrid = () => {
-	const numberOfCards = 20; // Number of cards to display
+	const numberOfCards = 20;
 
 	const cardVariants = {
 		hidden: { opacity: 0, y: 20 },
@@ -12,8 +12,8 @@ const CardsGrid = () => {
 			opacity: 1,
 			y: 0,
 			transition: {
-				delay: index * 0.1, // Stagger animation by 0.1 seconds for each card
-				duration: 0.5, // Duration of the animation for each card
+				delay: index * 0.1,
+				duration: 0.5,
 			},
 		}),
 	};
@@ -23,7 +23,7 @@ const CardsGrid = () => {
 			{Array.from({ length: numberOfCards }).map((_, index) => (
 				<motion.div
 					key={index}
-					custom={index} // Pass index to variants
+					custom={index}
 					initial="hidden"
 					animate="visible"
 					variants={cardVariants}
