@@ -1,21 +1,22 @@
 import prisma from "@/app/libs/prismadb";
 
 interface IParams {
-	recipe_id: string;
+	recipeId: string;
 }
 
 export default async function getRecipeById(params: IParams) {
 	try {
-		const { recipe_id } = params;
+		const { recipeId } = params;
 
-		if (!recipe_id) return;
+		if (!recipeId) return;
 
 		const recipe = await prisma.recipe.findUnique({
 			where: {
-				id: recipe_id,
+				id: recipeId,
 			},
 			include: {
 				user: true,
+				ingredients: true,
 			},
 		});
 

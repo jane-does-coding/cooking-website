@@ -2,10 +2,10 @@ import React from "react";
 import RecipeDetails from "./RecipeDetails";
 import Recommended from "./Recommended";
 
-const Recipe = () => {
+const Recipe = ({ recipe }: any) => {
 	return (
-		<div className="flex w-[90vw] h-screen overflow-auto mx-auto items-center justify-center">
-			<RecipeDetails />
+		<div className="flex w-[90vw] min-h-scree mx-auto items-center justify-center relative">
+			<RecipeDetails recipe={recipe} />
 			<Recommended />
 		</div>
 	);
