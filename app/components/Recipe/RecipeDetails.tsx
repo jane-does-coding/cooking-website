@@ -107,7 +107,7 @@ const RecipeDetails = ({ recipe }: any) => {
 						text={"Steps"}
 					/>
 					{recipe.steps.map((step: any, i: any) => (
-						<div className="border-b-2 pb-12 mb-12 border-neutral-800">
+						<div className="border-b-2 pb-12 mb-12 border-neutral-800" key={i}>
 							<AnimatedTextWord
 								className="text-md text-white mx-auto jura w-full text-[2.25rem] text-left flex mb-6 bg-gradient-to-r from-neutral-800/50 to-neutral-950 pl-6 border-l-4 border-neutral-700"
 								text={`Step ${i + 1}`}
