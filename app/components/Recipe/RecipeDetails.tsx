@@ -3,6 +3,7 @@ import AnimatedTextCharacter from "../Text/AnimatedTextCharacter";
 import { motion } from "framer-motion";
 import AnimatedTextWord from "../Text/AnimatedTextWord";
 import RecipeHeader from "./RecipeHeader";
+import Comments from "./Comments";
 
 const RecipeDetails = ({ recipe }: any) => {
 	const ingredients = recipe.ingredients;
@@ -125,6 +126,8 @@ const RecipeDetails = ({ recipe }: any) => {
 
 				<h2 className="text-xl font-semibold mb-2">Category</h2>
 				<p className="mb-8">Main Course</p>
+
+				<Comments />
 			</div>
 		</div>
 	);
