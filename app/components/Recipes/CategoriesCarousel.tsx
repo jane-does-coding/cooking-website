@@ -12,12 +12,12 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const CategoriesCarousel = () => {
 	const items = [
-		{ link: "/", title: "Fruits", image: "/banner1.jpeg" },
-		{ link: "/", title: "Vegetables", image: "/banner2.jpeg" },
-		{ link: "/", title: "Dairy", image: "/banner3.jpeg" },
-		{ link: "/", title: "Meat", image: "/banner4.jpeg" },
-		{ link: "/", title: "Seafood", image: "/banner5.jpeg" },
-		{ link: "/", title: "Grains", image: "/banner6.jpeg" },
+		{ link: "/appetizer", title: "Appetizer", image: "/banner1.jpeg" },
+		{ link: "/main-course", title: "Main Course", image: "/banner2.jpeg" },
+		{ link: "/dessert", title: "Dessert", image: "/banner3.jpeg" },
+		{ link: "/beverage", title: "Beverage", image: "/banner4.jpeg" },
+		{ link: "/snack", title: "Snack", image: "/banner5.jpeg" },
+		{ link: "/all", title: "All", image: "/banner6.jpeg" },
 	];
 
 	return (
@@ -37,21 +37,24 @@ const CategoriesCarousel = () => {
 							transition={{ duration: 0.5, delay: index * 0.1 }}
 							className="w-1/5 min-w-[120px] max-w-[150px] 2xl:max-w-[225px] aspect-[1] mx-1"
 						>
-							<CarouselItem className="w-full h-full">
-								<Card className="relative rounded-full overflow-hidden border-none">
-									<CardContent className="relative flex items-center justify-center p-0">
-										<img
-											className="w-full h-full aspect-[1] object-cover rounded-full"
-											src={item.image}
-											alt={item.title}
-										/>
-										<div className="absolute inset-0 w-full h-full bg-neutral-950/[60%] transition rounded-full" />
-										<div className="absolute inset-0 flex items-center justify-center text-white text-[1.5rem] font-bold slovensko">
-											{item.title}
-										</div>
-									</CardContent>
-								</Card>
-							</CarouselItem>
+							{/* Wrap the category item in an anchor tag */}
+							<a href={item.link} className="w-full h-full">
+								<CarouselItem className="w-full h-full">
+									<Card className="relative rounded-full overflow-hidden border-none">
+										<CardContent className="relative flex items-center justify-center p-0">
+											<img
+												className="w-full h-full aspect-[1] object-cover rounded-full"
+												src={item.image}
+												alt={item.title}
+											/>
+											<div className="absolute inset-0 w-full h-full bg-neutral-950/[60%] transition rounded-full" />
+											<div className="absolute inset-0 flex items-center justify-center text-white text-[1.5rem] font-bold slovensko">
+												{item.title}
+											</div>
+										</CardContent>
+									</Card>
+								</CarouselItem>
+							</a>
 						</motion.div>
 					))}
 				</CarouselContent>

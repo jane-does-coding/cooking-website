@@ -37,7 +37,7 @@ const Register = () => {
 
 			if (callback?.ok) {
 				toast.success("Logged in");
-				router.push("/");
+				router.push("/recipes");
 				router.refresh();
 			} else if (callback?.error) {
 				toast.error(callback.error);
