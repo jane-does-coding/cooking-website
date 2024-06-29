@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import AnimatedTextWord from "../Text/AnimatedTextWord";
 import RecipeHeader from "./RecipeHeader";
 import Comments from "./Comments";
+import CreateComment from "./CreateComment";
 
-const RecipeDetails = ({ recipe, currentUser }: any) => {
+const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 	const ingredients = recipe.ingredients;
 
 	const imageVariants = {
@@ -127,7 +128,8 @@ const RecipeDetails = ({ recipe, currentUser }: any) => {
 				<h2 className="text-xl font-semibold mb-2">Category</h2>
 				<p className="mb-8">Main Course</p>
 
-				<Comments />
+				<CreateComment recipeId={recipe.id} />
+				<Comments comments={comments} />
 			</div>
 		</div>
 	);

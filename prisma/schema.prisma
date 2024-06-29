@@ -17,6 +17,7 @@ model User {
   updatedAt      DateTime @updatedAt
   favoriteIds    String[] @db.ObjectId
   recipes        Recipe[]  @relation("UserRecipes") // Update the relation name
+  comments     Comment[] @relation("UserComments") // Add this line to relate to comments
 }
 
 model Recipe {
@@ -35,9 +36,9 @@ model Recipe {
   saved          String[]       @db.ObjectId // List of user IDs who saved the recipe
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-    userId         String         @db.ObjectId  // Add this line
+  userId         String         @db.ObjectId  // Add this line
   user           User           @relation("UserRecipes", fields: [userId], references: [id]) // Add this line to create relation
-
+  comments       Comment[]      @relation("RecipeComments") // Define relation to comments
 }
 
 model Ingredient {
@@ -46,4 +47,14 @@ model Ingredient {
   amount       String
   recipe       Recipe    @relation("RecipeIngredients", fields: [recipeId], references: [id])
   recipeId     String    @db.ObjectId
+}
+model Comment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  recipeId   String   @db.ObjectId
+  recipe     Recipe   @relation("RecipeComments", fields: [recipeId], references: [id])
+    userId       String    @db.ObjectId  // Add this line for user relation
+  user         User      @relation("UserComments", fields: [userId], references: [id]) // Add this line for user relation
 }
