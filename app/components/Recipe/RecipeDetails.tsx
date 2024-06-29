@@ -5,7 +5,7 @@ import AnimatedTextWord from "../Text/AnimatedTextWord";
 import RecipeHeader from "./RecipeHeader";
 import Comments from "./Comments";
 
-const RecipeDetails = ({ recipe }: any) => {
+const RecipeDetails = ({ recipe, currentUser }: any) => {
 	const ingredients = recipe.ingredients;
 
 	const imageVariants = {
@@ -42,7 +42,7 @@ const RecipeDetails = ({ recipe }: any) => {
 					/>
 				</motion.div>
 
-				<RecipeHeader />
+				<RecipeHeader recipe={recipe} currentUser={currentUser} />
 
 				<p className="text-lg mb-4">
 					This is a wonderful recipe description. Lorem ipsum dolor sit amet,

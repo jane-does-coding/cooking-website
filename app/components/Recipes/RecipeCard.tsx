@@ -25,7 +25,7 @@ const fadeInVariant = {
 	}),
 };
 
-export default function RecipeCard({ recipe }: any) {
+export default function RecipeCard({ recipe, currentUser }: any) {
 	const cardRef = useRef(null);
 	const headerRef = useRef(null);
 	const contentRef = useRef(null);
@@ -93,7 +93,12 @@ export default function RecipeCard({ recipe }: any) {
 						custom={5}
 						variants={fadeInVariant}
 					>
-						<RecipeCardActions likes={recipe.likes} saved={recipe.saved} />
+						<RecipeCardActions
+							currentUser={currentUser}
+							recipeId={recipe.id}
+							likes={recipe.likes}
+							saved={recipe.saved}
+						/>
 					</motion.div>
 					<motion.div
 						initial="hidden"
