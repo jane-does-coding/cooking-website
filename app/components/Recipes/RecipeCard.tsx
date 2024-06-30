@@ -38,6 +38,10 @@ export default function RecipeCard({ recipe, currentUser }: any) {
 
 	const router = useRouter();
 
+	if (!recipe || !recipe.id) {
+		return <div>Invalid recipe data.</div>;
+	}
+
 	return (
 		<Card className="w-full" ref={cardRef}>
 			<motion.div

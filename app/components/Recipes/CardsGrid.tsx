@@ -3,7 +3,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import RecipeCard from "./RecipeCard";
 
-const CardsGrid = ({ recipes, currentUser }: any) => {
+const CardsGrid = ({
+	recipes,
+	currentUser,
+}: {
+	recipes: any;
+	currentUser: any;
+}) => {
 	const numberOfCards = 20;
 
 	const cardVariants = {
@@ -17,6 +23,11 @@ const CardsGrid = ({ recipes, currentUser }: any) => {
 			},
 		}),
 	};
+
+	if (!recipes || recipes.length === 0) {
+		return <div>No recipes to display.</div>;
+	}
+
 	return (
 		<div className="w-[96vw] mx-auto ml-[2vw] md:w-[90vw] md:ml-[5vw] gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 			{recipes.map((recipe: any, index: any) => (
