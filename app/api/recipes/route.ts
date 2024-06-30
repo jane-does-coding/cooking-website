@@ -1,6 +1,8 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import prisma from "@/app/libs/prismadb";
+// api/recipes/index.ts
 import { NextResponse } from "next/server";
+import prisma from "@/app/libs/prismadb";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import cloudinary from "@/app/libs/cloudinaryConfig";
 
 export async function POST(req: Request) {
 	const body = await req.json();
@@ -14,7 +16,7 @@ export async function POST(req: Request) {
 		servingSize,
 		expectedTime,
 		category,
-		imageUrl,
+		imageUrl, // Now this will contain the Cloudinary URL
 	} = body;
 
 	const user = await getCurrentUser();
@@ -33,14 +35,16 @@ export async function POST(req: Request) {
 					servingSize,
 					expectedTime,
 					category,
-					imageUrl,
+					imageUrl, // Use the uploaded image URL
 					likes: [],
 					saved: [],
 					ingredients: {
-						create: ingredients.map((ingredient: any) => ({
-							name: ingredient.name,
-							amount: ingredient.amount,
-						})),
+						create: ingredients.map(
+							(ingredient: { name: string; amount: string }) => ({
+								name: ingredient.name,
+								amount: ingredient.amount,
+							})
+						),
 					},
 				},
 			});

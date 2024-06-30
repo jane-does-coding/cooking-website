@@ -22,10 +22,8 @@ export async function POST(req: Request) {
 	let updatedLikes;
 
 	if (recipe.likes.includes(user.id)) {
-		// User already liked it, so remove the like
 		updatedLikes = recipe.likes.filter((likeId) => likeId !== user.id);
 	} else {
-		// User has not liked it yet, so add the like
 		updatedLikes = [...recipe.likes, user.id];
 	}
 

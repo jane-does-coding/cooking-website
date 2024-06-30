@@ -52,6 +52,8 @@ const CreateRecipe: React.FC = () => {
 		imageUrl: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
+	const [imageFile, setImageFile] = useState<File | null>(null); // For handling image files
+
 	const router = useRouter();
 
 	const handleChange = (
@@ -121,22 +123,65 @@ const CreateRecipe: React.FC = () => {
 		setData((prevData) => ({ ...prevData, expectedTime: value }));
 	};
 
+	const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			const file = e.target.files[0];
+
+			// Create FormData
+			const formData = new FormData();
+			formData.append("image", file);
+
+			try {
+				// Upload image to API endpoint
+				const response = await axios.post("/api/upload", formData, {
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				});
+
+				// Handle response: get imageUrl from API response
+				const { imageUrl } = response.data;
+				setData((prevData) => ({ ...prevData, imageUrl }));
+			} catch (error) {
+				console.error("Error uploading image:", error);
+				toast.error("Failed to upload image");
+			}
+		}
+	};
+
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setIsLoading(true);
 
 		try {
+			let imageUrl = "";
+
+			if (imageFile) {
+				const formData = new FormData();
+				formData.append("file", imageFile);
+				formData.append("upload_preset", "your_upload_preset"); // Your Cloudinary upload preset
+
+				const response = await axios.post(
+					`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+					formData
+				);
+
+				imageUrl = response.data.secure_url;
+			}
+
+			// Add the imageUrl to the data object
+			const recipeData = { ...data, imageUrl };
+
 			// Make the POST request using Axios
-			const response = await axios.post("/api/recipes", data, {
+			const response = await axios.post("/api/recipes", recipeData, {
 				headers: {
 					"Content-Type": "application/json",
 				},
 			});
 
-			// Check if the response status is 200 (OK)
 			if (response.status === 200) {
 				toast.success("Recipe created successfully");
-				router.push("/"); // Navigate to home or another page after successful creation
+				router.push("/");
 			} else {
 				toast.error("Failed to create recipe");
 			}
@@ -381,6 +426,19 @@ const CreateRecipe: React.FC = () => {
 						/>
 						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
 							Extra Info
+						</label>
+					</div>
+
+					{/* Image upload */}
+					<div className="relative my-1">
+						<input
+							type="file"
+							disabled={isLoading}
+							onChange={handleImageUpload}
+							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+						/>
+						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+							Upload Image
 						</label>
 					</div>
 
