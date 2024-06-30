@@ -1,15 +1,37 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
+import prisma from "@/app/libs/prismadb";
 
-export async function POST(req: Request) {
-	const body = await req.json();
-	const {} = body;
+interface IParams {
+	recipeId: string;
+}
 
-	const user = await getCurrentUser();
+export async function DELETE(
+	request: Request,
+	{ params }: { params: IParams }
+) {
+	const currentUser = await getCurrentUser();
 
-	if (user?.id) {
-	} else {
-		return NextResponse.json({ message: "not authorized" }, { status: 401 });
-	}
+	if (!currentUser) return NextResponse.error();
+
+	let { recipeId } = params;
+	recipeId = recipeId.toString();
+
+	if (!recipeId) throw new Error("Invalid Id");
+
+	// Delete related RecipeIngredients first
+	await prisma.ingredient.deleteMany({
+		where: {
+			recipeId: recipeId,
+		},
+	});
+
+	// Now delete the Recipe
+	const recipe = await prisma.recipe.delete({
+		where: {
+			id: recipeId,
+		},
+	});
+
+	return NextResponse.json(recipe);
 }

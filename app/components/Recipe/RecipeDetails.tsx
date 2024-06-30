@@ -1,4 +1,6 @@
 "use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import AnimatedTextCharacter from "../Text/AnimatedTextCharacter";
 import { motion } from "framer-motion";
 import AnimatedTextWord from "../Text/AnimatedTextWord";
@@ -7,7 +9,11 @@ import Comments from "./Comments";
 import CreateComment from "./CreateComment";
 
 const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
+	const [deleting, setDeleting] = useState(false);
+	const router = useRouter();
+
 	const ingredients = recipe.ingredients;
+	const isOwner = currentUser && recipe.userId === currentUser.id;
 
 	const imageVariants = {
 		hidden: { opacity: 0, y: 20 },
@@ -21,6 +27,26 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 		},
 	};
 
+	const handleDelete = async () => {
+		if (!confirm("Are you sure you want to delete this recipe?")) return;
+
+		setDeleting(true);
+		try {
+			const response = await fetch(`/api/recipes/${recipe.id}`, {
+				method: "DELETE",
+			});
+			if (!response.ok) throw new Error("Failed to delete recipe");
+
+			alert("Recipe deleted successfully");
+			router.push("/recipes");
+		} catch (error) {
+			alert("An error occurred while deleting the recipe");
+			console.error(error);
+		} finally {
+			setDeleting(false);
+		}
+	};
+
 	return (
 		<div className="w-full pr-[25vw] xl:pr-[30vw] ">
 			<div className="container mx-auto py-8">
@@ -30,6 +56,18 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 						className="text-[2rem] xl:text-[3rem] leading-[6rem]"
 					/>
 				</h1>
+				{isOwner && (
+					<button
+						onClick={handleDelete}
+						className={`mb-4 py-2 px-4 bg-red-600 text-white rounded ${
+							deleting ? "opacity-50 cursor-not-allowed" : ""
+						}`}
+						disabled={deleting}
+					>
+						Delete Recipe
+					</button>
+				)}
+
 				<motion.div
 					initial="hidden"
 					animate="visible"
