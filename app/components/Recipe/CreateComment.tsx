@@ -16,14 +16,12 @@ const CreateComment = ({ recipeId }: any) => {
 				content: comment,
 			});
 			console.log("Comment created successfully:", response.data);
-			// Optionally, you can handle UI updates or success messages here
 			router.refresh();
 		} catch (error) {
 			console.error("Error creating comment:", error);
-			// Handle error state or display error message
 		} finally {
 			setIsLoading(false);
-			setComment(""); // Clear the comment field after submission
+			setComment("");
 		}
 	};
 

@@ -25,8 +25,8 @@ export async function POST(req: Request) {
 		where: { id: recipeId },
 		data: {
 			saved: isSaved
-				? recipe.saved.filter((id: string) => id !== user.id) // Remove user ID if already saved
-				: [...recipe.saved, user.id], // Add user ID if not already saved
+				? recipe.saved.filter((id: string) => id !== user.id)
+				: [...recipe.saved, user.id],
 		},
 	});
 

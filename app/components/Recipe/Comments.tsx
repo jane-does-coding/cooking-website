@@ -5,20 +5,25 @@ import Comment from "./Comment";
 import AnimatedTextWord from "../Text/AnimatedTextWord";
 
 const Comments = ({ comments }: any) => {
-	const commentsArray = new Array(5).fill(0); // Array to map over
-
-	// Animation variants
 	const commentVariants = {
 		hidden: { opacity: 0, y: 50 },
 		visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 	};
 
+	if (comments.length < 1)
+		return (
+			<div>
+				<h2>
+					<AnimatedTextWord
+						text={"Be the first to comment"}
+						className="jura text-center text-[1.25rem] w-fit mx-auto text-neutral-200"
+					/>
+				</h2>
+			</div>
+		);
+
 	return (
 		<div className="flex flex-col gap-6">
-			{/* <AnimatedTextWord
-				className="text-md text-white mx-auto jura w-fit text-[2.25rem] text-center flex items-center justify-center mb-6"
-				text={"Comments"}
-			/> */}
 			{comments.map((comment: any, index: number) => (
 				<CommentItem
 					comment={comment}
@@ -31,7 +36,6 @@ const Comments = ({ comments }: any) => {
 	);
 };
 
-// Component to animate each comment
 const CommentItem = ({ index, variants, comment }: any) => {
 	const controls = useAnimation();
 	const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -49,7 +53,7 @@ const CommentItem = ({ index, variants, comment }: any) => {
 			initial="hidden"
 			animate={controls}
 			variants={variants}
-			transition={{ delay: index * 0.1 }} // stagger with 0.1s delay per item
+			transition={{ delay: index * 0.1 }}
 		>
 			<Comment comment={comment} />
 		</motion.div>

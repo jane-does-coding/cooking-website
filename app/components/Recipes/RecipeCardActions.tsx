@@ -9,17 +9,14 @@ const RecipeCardActions = ({
 	saved: savedIds,
 	currentUser,
 }: any) => {
-	// Initial state setup for liked and saved statuses
 	const initialLiked = likesIds.includes(currentUser.id);
 	const initialSaved = savedIds.includes(currentUser.id);
 
-	// State for liked and saved, and their respective animations
 	const [liked, setLiked] = useState(initialLiked);
 	const [saved, setSaved] = useState(initialSaved);
 	const [animateLike, setAnimateLike] = useState(false);
 	const [animateSave, setAnimateSave] = useState(false);
 
-	// State for displayed counts of likes and saves
 	const [displayedLikesCount, setDisplayedLikesCount] = useState(
 		likesIds.length
 	);
@@ -27,19 +24,15 @@ const RecipeCardActions = ({
 		savedIds.length
 	);
 
-	// Function to handle saving logic
 	const toggleSaved = async () => {
-		// Toggle save state and animation
 		setSaved(!saved);
 		setAnimateSave(true);
 
-		// Adjust save count based on current state
 		setDisplayedSavesCount(
 			saved ? displayedSavesCount - 1 : displayedSavesCount + 1
 		);
 
 		try {
-			// Make a POST request to the saveRecipe API
 			const response = await fetch("/api/saveRecipe", {
 				method: "POST",
 				headers: {
@@ -56,19 +49,15 @@ const RecipeCardActions = ({
 		}
 	};
 
-	// Function to handle liking logic
 	const toggleLiked = async () => {
-		// Toggle like state and animation
 		setLiked(!liked);
 		setAnimateLike(true);
 
-		// Adjust like count based on current state
 		setDisplayedLikesCount(
 			liked ? displayedLikesCount - 1 : displayedLikesCount + 1
 		);
 
 		try {
-			// Make a POST request to the likeRecipe API
 			const response = await fetch("/api/likeRecipe", {
 				method: "POST",
 				headers: {
@@ -85,7 +74,6 @@ const RecipeCardActions = ({
 		}
 	};
 
-	// Effect to handle animation for like button
 	useEffect(() => {
 		if (animateLike) {
 			const timer = setTimeout(() => {
@@ -95,7 +83,6 @@ const RecipeCardActions = ({
 		}
 	}, [animateLike]);
 
-	// Effect to handle animation for save button
 	useEffect(() => {
 		if (animateSave) {
 			const timer = setTimeout(() => {

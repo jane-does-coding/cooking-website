@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import React from "react";
 
 const Comment = ({ comment }: any) => {
-	// Function to format date as "Month Day, Year"
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
 		const options: any = {

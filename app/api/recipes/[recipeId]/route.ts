@@ -19,14 +19,12 @@ export async function DELETE(
 
 	if (!recipeId) throw new Error("Invalid Id");
 
-	// Delete related RecipeIngredients first
 	await prisma.ingredient.deleteMany({
 		where: {
 			recipeId: recipeId,
 		},
 	});
 
-	// Now delete the Recipe
 	const recipe = await prisma.recipe.delete({
 		where: {
 			id: recipeId,

@@ -7,7 +7,10 @@ import React from "react";
 const page = async (props: any) => {
 	const { params } = props;
 	const recipe = await getRecipeById(params);
-	const comments = await getComments();
+
+	if (!recipe) return "idk";
+
+	const comments = await getComments(recipe.id);
 	const currentUser = await getCurrentUser();
 
 	return (

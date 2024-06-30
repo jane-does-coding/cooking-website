@@ -37,7 +37,6 @@ const CategoriesCarousel = () => {
 							transition={{ duration: 0.5, delay: index * 0.1 }}
 							className="w-1/5 min-w-[120px] max-w-[150px] 2xl:max-w-[225px] aspect-[1] mx-1"
 						>
-							{/* Wrap the category item in an anchor tag */}
 							<a href={`/category/${item.link}`} className="w-full h-full">
 								<CarouselItem className="w-full h-full">
 									<Card className="relative rounded-full overflow-hidden border-none">

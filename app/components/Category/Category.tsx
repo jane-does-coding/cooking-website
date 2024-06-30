@@ -4,11 +4,11 @@ import AnimatedTextCharacter from "../Text/AnimatedTextCharacter";
 
 const transformCategoryName = (name: any) => {
 	return name
-		.split("-") // Split the string by hyphens
+		.split("-")
 		.map(
 			(word: any) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-		) // Capitalize each word
-		.join(" "); // Join them back with spaces
+		)
+		.join(" ");
 };
 
 const Category = ({ currentUser, recipes, categoryName }: any) => {

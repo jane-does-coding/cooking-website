@@ -6,13 +6,11 @@ export async function POST(req: Request) {
 	try {
 		const { recipeId, content } = await req.json();
 
-		// Retrieve current user
 		const user = await getCurrentUser();
 		if (!user?.id) {
 			return NextResponse.json({ message: "not authorized" }, { status: 401 });
 		}
 
-		// Find the recipe to associate the comment with
 		const recipe = await prisma.recipe.findUnique({
 			where: { id: recipeId },
 		});
@@ -23,7 +21,6 @@ export async function POST(req: Request) {
 			);
 		}
 
-		// Create the comment and associate it with the recipe and user
 		const createdComment = await prisma.comment.create({
 			data: {
 				content,
@@ -32,12 +29,11 @@ export async function POST(req: Request) {
 			},
 		});
 
-		// Optionally, update the recipe to include the new comment ID in its comments array
 		const updatedRecipe = await prisma.recipe.update({
 			where: { id: recipeId },
 			data: {
 				comments: {
-					connect: { id: createdComment.id }, // Use connect to add a new ID to the array
+					connect: { id: createdComment.id },
 				},
 			},
 		});

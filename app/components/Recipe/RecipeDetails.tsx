@@ -83,12 +83,7 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 
 				<RecipeHeader recipe={recipe} currentUser={currentUser} />
 
-				<p className="text-lg mb-4">
-					This is a wonderful recipe description. Lorem ipsum dolor sit amet,
-					consectetur adipiscing elit. Nullam ac tortor risus. Lorem ipsum dolor
-					sit amet consectetur, adipisicing elit. Ipsa tempore voluptatem odit
-					cumque voluptas earum, dolores error veniam maiores tempora.
-				</p>
+				<p className="text-lg mb-4">{recipe.description}</p>
 
 				<div className="my-8 mt-[4rem] mb-14">
 					<AnimatedTextWord
