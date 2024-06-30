@@ -5,8 +5,8 @@ export default async function getRecipes() {
 	try {
 		const currentUser = await getCurrentUser();
 
-		/* 		if (!currentUser) return [];
-		 */
+		if (!currentUser) return [];
+
 		const recipes = await prisma.recipe.findMany({});
 
 		return recipes;
