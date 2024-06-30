@@ -217,11 +217,11 @@ const CreateRecipe: React.FC = () => {
 								<SelectContent>
 									<SelectGroup>
 										<SelectLabel>Categories</SelectLabel>
-										<SelectItem value="Appetizer">Appetizer</SelectItem>
-										<SelectItem value="Main Course">Main Course</SelectItem>
-										<SelectItem value="Dessert">Dessert</SelectItem>
-										<SelectItem value="Beverage">Beverage</SelectItem>
-										<SelectItem value="Snack">Snack</SelectItem>
+										<SelectItem value="appetizer">Appetizer</SelectItem>
+										<SelectItem value="main-course">Main Course</SelectItem>
+										<SelectItem value="dessert">Dessert</SelectItem>
+										<SelectItem value="beverage">Beverage</SelectItem>
+										<SelectItem value="snack">Snack</SelectItem>
 									</SelectGroup>
 								</SelectContent>
 							</Select>

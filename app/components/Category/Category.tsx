@@ -1,0 +1,32 @@
+"use client";
+import CardsGrid from "../Recipes/CardsGrid";
+import AnimatedTextCharacter from "../Text/AnimatedTextCharacter";
+
+const transformCategoryName = (name: any) => {
+	return name
+		.split("-") // Split the string by hyphens
+		.map(
+			(word: any) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+		) // Capitalize each word
+		.join(" "); // Join them back with spaces
+};
+
+const Category = ({ currentUser, recipes, categoryName }: any) => {
+	if (!recipes) return "hey";
+
+	const transformedCategoryName = transformCategoryName(categoryName);
+
+	return (
+		<div className="min-h-screen pt-4">
+			<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit">
+				<AnimatedTextCharacter
+					text={transformedCategoryName}
+					className="text-[2rem] xl:text-[3rem] leading-[6rem]"
+				/>
+			</h1>
+			<CardsGrid recipes={recipes} currentUser={currentUser} />
+		</div>
+	);
+};
+
+export default Category;
