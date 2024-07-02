@@ -2,8 +2,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Recommendation from "./Recommendation";
+import AnimatedTextWord from "../Text/AnimatedTextWord";
 
-const Recommended = ({ recommendedRecipes, currentUser }: any) => {
+const Recommended = ({
+	recommendedRecipes,
+	currentUser,
+	recipe: currentRecipe,
+}: any) => {
 	const numberOfRecommendations = 6;
 
 	const recommendationVariants = {
@@ -38,20 +43,30 @@ const Recommended = ({ recommendedRecipes, currentUser }: any) => {
 			>
 				Similar
 			</motion.h2>
-			{recommendedRecipes.map((recipe: any, index: any) => {
-				return (
-					<motion.div
-						key={index}
-						custom={index}
-						initial="hidden"
-						animate="visible"
-						variants={recommendationVariants}
-						className="mb-4"
-					>
-						<Recommendation currentUser={currentUser} recipe={recipe} />
-					</motion.div>
-				);
-			})}
+			{recommendedRecipes.length < 2 ? (
+				<AnimatedTextWord
+					text={"nothing was found"}
+					className="w-fit mx-auto jura text-[1.5rem] mt-4"
+				/>
+			) : (
+				recommendedRecipes.map((recipe: any, index: any) => {
+					if (recipe.id !== currentRecipe.id) {
+						return (
+							<motion.div
+								key={index}
+								custom={index}
+								initial="hidden"
+								animate="visible"
+								variants={recommendationVariants}
+								className="mb-4"
+							>
+								<Recommendation currentUser={currentUser} recipe={recipe} />
+							</motion.div>
+						);
+					}
+				})
+			)}
+			{}
 		</div>
 	);
 };

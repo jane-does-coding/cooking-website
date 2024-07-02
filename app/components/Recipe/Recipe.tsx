@@ -11,6 +11,7 @@ const Recipe = ({ recipe, currentUser, comments, recommendedRecipes }: any) => {
 				recipe={recipe}
 			/>
 			<Recommended
+				recipe={recipe}
 				currentUser={currentUser}
 				recommendedRecipes={recommendedRecipes}
 			/>

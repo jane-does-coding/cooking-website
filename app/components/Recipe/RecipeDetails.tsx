@@ -150,20 +150,10 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 				<p className="mb-8">{recipe.extraInfo}</p>
 
 				<h2 className="text-xl font-semibold mb-2">Category</h2>
-				<p className="mb-8">Main Course</p>
+				<p className="mb-8">{recipe.category}</p>
 
 				<CreateComment recipeId={recipe.id} />
 				<Comments comments={comments} />
-				{/* 
-				<button
-					onClick={handleDelete}
-					className={`mb-4 py-4 px-4 bg-neutral-800 text-white rounded-full ${
-						deleting ? "opacity-50 cursor-not-allowed" : ""
-					}`}
-					disabled={deleting}
-				>
-					<FaRegTrashCan size={28} />
-				</button> */}
 
 				{isOwner && (
 					<div className="flex gap-4 mt-12">
