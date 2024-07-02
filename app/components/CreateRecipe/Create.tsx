@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import ImageUpload from "../Inputs/ImageUpload";
 
 // Define the structure for each ingredient
 interface IngredientData {
@@ -123,30 +124,9 @@ const CreateRecipe: React.FC = () => {
 		setData((prevData) => ({ ...prevData, expectedTime: value }));
 	};
 
-	const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files.length > 0) {
-			const file = e.target.files[0];
-
-			// Create FormData
-			const formData = new FormData();
-			formData.append("image", file);
-
-			try {
-				// Upload image to API endpoint
-				const response = await axios.post("/api/upload", formData, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				});
-
-				// Handle response: get imageUrl from API response
-				const { imageUrl } = response.data;
-				setData((prevData) => ({ ...prevData, imageUrl }));
-			} catch (error) {
-				console.error("Error uploading image:", error);
-				toast.error("Failed to upload image");
-			}
-		}
+	const handleImageUpload = (value: string) => {
+		setData((prevData) => ({ ...prevData, imageUrl: value }));
+		console.log("In the handleImageUpload: " + data);
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -170,7 +150,7 @@ const CreateRecipe: React.FC = () => {
 			}
 
 			// Add the imageUrl to the data object
-			const recipeData = { ...data, imageUrl };
+			const recipeData = { ...data, imageSrc: imageUrl };
 
 			// Make the POST request using Axios
 			const response = await axios.post("/api/recipes", recipeData, {
@@ -429,19 +409,7 @@ const CreateRecipe: React.FC = () => {
 						</label>
 					</div>
 
-					{/* Image upload */}
-					<div className="relative my-1">
-						<input
-							type="file"
-							disabled={isLoading}
-							onChange={handleImageUpload}
-							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-						/>
-						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-							Upload Image
-						</label>
-					</div>
-
+					<ImageUpload onChange={handleImageUpload} value={data.imageUrl} />
 					<button
 						type="submit"
 						disabled={isLoading}
