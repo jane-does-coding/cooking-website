@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Recommendation from "./Recommendation";
 
-const Recommended = () => {
+const Recommended = ({ recommendedRecipes, currentUser }: any) => {
 	const numberOfRecommendations = 6;
 
 	const recommendationVariants = {
@@ -38,7 +38,7 @@ const Recommended = () => {
 			>
 				Similar
 			</motion.h2>
-			{Array.from({ length: numberOfRecommendations }).map((_, index) => {
+			{recommendedRecipes.map((recipe: any, index: any) => {
 				return (
 					<motion.div
 						key={index}
@@ -48,7 +48,7 @@ const Recommended = () => {
 						variants={recommendationVariants}
 						className="mb-4"
 					>
-						<Recommendation />
+						<Recommendation currentUser={currentUser} recipe={recipe} />
 					</motion.div>
 				);
 			})}

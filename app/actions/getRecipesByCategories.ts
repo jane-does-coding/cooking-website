@@ -1,13 +1,22 @@
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
 
-export default async function getRecipes() {
+interface IParams {
+	categoryName: string;
+}
+
+export default async function getRecipes(params: IParams) {
 	try {
+		const { categoryName } = params;
+
 		const currentUser = await getCurrentUser();
 
 		if (!currentUser) return [];
 
 		const recipes = await prisma.recipe.findMany({
+			where: {
+				category: categoryName,
+			},
 			orderBy: {
 				createdAt: "desc",
 			},
