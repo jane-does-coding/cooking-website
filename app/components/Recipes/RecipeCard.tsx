@@ -79,7 +79,11 @@ export default function RecipeCard({ recipe, currentUser }: any) {
 				variants={fadeInVariant}
 			>
 				<CardContent>
-					<img src="/banner4.jpeg" className="rounded-lg" alt="" />
+					<img
+						src={recipe.imageUrl}
+						className="rounded-lg aspect-[3/2] w-full object-cover"
+						alt=""
+					/>
 				</CardContent>
 			</motion.div>
 

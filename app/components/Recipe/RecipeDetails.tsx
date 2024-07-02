@@ -7,6 +7,8 @@ import AnimatedTextWord from "../Text/AnimatedTextWord";
 import RecipeHeader from "./RecipeHeader";
 import Comments from "./Comments";
 import CreateComment from "./CreateComment";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
 
 const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 	const [deleting, setDeleting] = useState(false);
@@ -49,24 +51,13 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 
 	return (
 		<div className="w-full pr-[25vw] xl:pr-[30vw] ">
-			<div className="container mx-auto py-8">
-				<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit">
+			<div className="container mx-auto py-8 relative">
+				<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit relative">
 					<AnimatedTextCharacter
 						text={recipe.title}
 						className="text-[2rem] xl:text-[3rem] leading-[6rem]"
 					/>
 				</h1>
-				{isOwner && (
-					<button
-						onClick={handleDelete}
-						className={`mb-4 py-2 px-4 bg-red-600 text-white rounded ${
-							deleting ? "opacity-50 cursor-not-allowed" : ""
-						}`}
-						disabled={deleting}
-					>
-						Delete Recipe
-					</button>
-				)}
 
 				<motion.div
 					initial="hidden"
@@ -75,7 +66,7 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 					className="mb-6 opacity-0"
 				>
 					<img
-						src="/banner4.jpeg"
+						src={recipe.imageUrl}
 						className="w-[100%] aspect-[3/2] mx-auto rounded-xl object-cover"
 						alt=""
 					/>
@@ -163,6 +154,31 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 
 				<CreateComment recipeId={recipe.id} />
 				<Comments comments={comments} />
+				{/* 
+				<button
+					onClick={handleDelete}
+					className={`mb-4 py-4 px-4 bg-neutral-800 text-white rounded-full ${
+						deleting ? "opacity-50 cursor-not-allowed" : ""
+					}`}
+					disabled={deleting}
+				>
+					<FaRegTrashCan size={28} />
+				</button> */}
+
+				{isOwner && (
+					<div className="flex gap-4 mt-12">
+						<Button className="w-full bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-300 text-white font-normal text-lg">
+							Edit
+						</Button>
+						<Button
+							className="w-full text-lg"
+							disabled={deleting}
+							onClick={handleDelete}
+						>
+							Delete
+						</Button>
+					</div>
+				)}
 			</div>
 		</div>
 	);

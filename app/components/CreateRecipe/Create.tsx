@@ -183,6 +183,9 @@ const CreateRecipe: React.FC = () => {
 				<h1 className="text-[2.5rem] mx-auto mb-8 w-fit text-center text-white slovensko">
 					Create Recipe
 				</h1>
+
+				<ImageUpload onChange={handleImageUpload} value={data.imageUrl} />
+
 				<form onSubmit={handleSubmit} className="gap-2 flex flex-col">
 					<div className="w-full relative my-1">
 						<input
@@ -409,7 +412,6 @@ const CreateRecipe: React.FC = () => {
 						</label>
 					</div>
 
-					<ImageUpload onChange={handleImageUpload} value={data.imageUrl} />
 					<button
 						type="submit"
 						disabled={isLoading}

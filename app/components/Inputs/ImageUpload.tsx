@@ -32,7 +32,7 @@ const ImageUpload = ({
 				{({ open }) => {
 					return (
 						<div
-							className="relative cursor-pointer hover:opacity:70 transition border-dashed border-2 p-20 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600"
+							className="relative cursor-pointer hover:opacity:70 transition border-dashed border-2 p-20 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600 w-full aspect-[3/2]"
 							onClick={() => open?.()}
 						>
 							<TbPhotoPlus size={40} />
