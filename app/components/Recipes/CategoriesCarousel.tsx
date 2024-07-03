@@ -12,12 +12,16 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const CategoriesCarousel = () => {
 	const items = [
-		{ link: "/appetizer", title: "Appetizer", image: "/banner1.jpeg" },
-		{ link: "/main-course", title: "Main Course", image: "/banner2.jpeg" },
-		{ link: "/dessert", title: "Dessert", image: "/banner3.jpeg" },
-		{ link: "/beverage", title: "Beverage", image: "/banner4.jpeg" },
-		{ link: "/snack", title: "Snack", image: "/banner5.jpeg" },
-		{ link: "/all", title: "All", image: "/banner6.jpeg" },
+		{
+			link: "/appetizer",
+			title: "Appetizer",
+			image: "/category-appetizer.jpg",
+		},
+		{ link: "/main-course", title: "Main Course", image: "/category-main.jpg" },
+		{ link: "/dessert", title: "Dessert", image: "/category-dessert.jpg" },
+		{ link: "/beverage", title: "Beverage", image: "/category-beverage.jpg" },
+		{ link: "/snack", title: "Snack", image: "/category-snack.jpg" },
+		{ link: "/all", title: "All", image: "/category-all.jpg" },
 	];
 
 	return (

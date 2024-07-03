@@ -8,7 +8,7 @@ const CardsGrid = ({
 	recipes,
 	currentUser,
 }: {
-	recipes: any[];
+	recipes: any;
 	currentUser: any;
 }) => {
 	const itemsPerPage = 20; // Adjust this number based on your preference
@@ -41,7 +41,7 @@ const CardsGrid = ({
 	return (
 		<>
 			<div className="w-[96vw] mx-auto ml-[2vw] md:w-[90vw] md:ml-[5vw] gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-				{currentRecipes.map((recipe, index) => (
+				{currentRecipes.map((recipe: any, index: any) => (
 					<motion.div
 						key={index}
 						custom={index}
