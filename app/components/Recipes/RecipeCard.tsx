@@ -12,6 +12,7 @@ import RecipeCardActions from "./RecipeCardActions";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import ShareBtn from "./ShareBtn";
 
 const fadeInVariant = {
 	hidden: { opacity: 0, y: 20 },
@@ -115,7 +116,7 @@ export default function RecipeCard({ recipe, currentUser }: any) {
 						variants={fadeInVariant}
 						className="flex gap-4 items-center"
 					>
-						<Button variant="outline">Share</Button>
+						<ShareBtn recipe={recipe} />
 						<Button onClick={() => router.push(`/recipes/${recipe.id}`)}>
 							View
 						</Button>
