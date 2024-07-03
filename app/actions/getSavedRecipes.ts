@@ -5,7 +5,9 @@ export default async function getSavedRecipes() {
 	try {
 		const currentUser = await getCurrentUser();
 
-		if (!currentUser) throw new Error("You are not logged in");
+		if (!currentUser) {
+			return [];
+		}
 
 		const recipes = await prisma.recipe.findMany({
 			where: {
