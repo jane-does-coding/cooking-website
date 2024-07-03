@@ -1,66 +1,136 @@
 "use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import QRCodeStyling from "qr-code-styling";
-import { useEffect, useState } from "react";
+import { useQRCode } from "next-qrcode";
+import { IoMdClose } from "react-icons/io";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogTitle,
+	DialogTrigger,
+} from "@radix-ui/react-dialog";
+import { DialogFooter } from "@/components/ui/dialog";
 
 const ShareBtn = ({ recipe }: any) => {
-	const [qrPopupOpen, setQrPopupOpen]: any = useState(false);
-	const [qrCodeInstance, setQRCodeInstance] = useState<QRCodeStyling | null>(
-		null
-	);
+	const [showQRCode, setShowQRCode] = useState(false);
+	const [dialogOpen, setDialogOpen] = useState(false);
 
-	useEffect(() => {
-		if (qrPopupOpen) {
-			const qrCode = new QRCodeStyling({
-				width: 300,
-				height: 300,
-				backgroundOptions: {
-					color: "transparent",
-				},
-				dotsOptions: {
-					type: "classy-rounded",
-				},
-				data: `/recipes/${recipe.id}`,
-				imageOptions: {
-					crossOrigin: "anonymous",
-					margin: 20,
-				},
-			});
-
-			setQRCodeInstance(qrCode);
-		}
-	}, [qrPopupOpen]);
-
-	const toggleQrPopup = () => {
-		setQrPopupOpen(!qrPopupOpen);
+	const handleCopyLink = () => {
+		const link = `recipes/${recipe.id}`; // Replace with the actual URL
+		navigator.clipboard
+			.writeText(link)
+			.then(() => alert("Link copied to clipboard!"))
+			.catch((err) => console.error("Could not copy text: ", err));
 	};
 
-	const openSharePopup = () => {
-		toggleQrPopup();
-	};
+	const { Canvas } = useQRCode();
 
 	return (
 		<div>
-			<Button variant="outline" className="w-full" onClick={openSharePopup}>
-				Share
-			</Button>
-			{qrPopupOpen && qrCodeInstance && (
-				<div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-950/25 backdrop-blur-sm z-[999]">
-					<div className="bg-neutral-200 p-8 rounded-xl relative max-w-[90vw] max-h-[90vh] overflow-auto">
-						<button
-							className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
-							onClick={toggleQrPopup}
-						>
-							<p>close</p>
-						</button>
+			<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+				<DialogTrigger asChild>
+					<Button
+						variant="outline"
+						className="w-full"
+						onClick={() => setDialogOpen(true)}
+					>
+						Share
+					</Button>
+				</DialogTrigger>
 
-						<div
-							className="bg-transparent"
-							ref={(node) => node && qrCodeInstance?.append(node)}
-						/>
-					</div>
-				</div>
-			)}
+				{dialogOpen && (
+					<div
+						className="w-full h-screen bg-neutral-950/25 backdrop-blur-sm fixed top-0 left-0 z-50"
+						onClick={() => setDialogOpen(false)}
+					/>
+				)}
+
+				<DialogContent
+					className="z-50 bg-neutral-900 px-8 py-8 rounded-xl min-w-[30vw] max-w-[40vw] max-h-[90vh] overflow-auto fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+					style={{
+						animation: "fadeInFromBottom 0.3s ease-out",
+					}}
+				>
+					<button
+						className="absolute top-4 right-4 text-neutral-200 hover:text-neutral-100"
+						onClick={() => setDialogOpen(false)}
+					>
+						<IoMdClose size={28} />
+					</button>
+					<DialogTitle className="text-lg font-bold text-neutral-100">
+						Share Recipe
+					</DialogTitle>
+					<DialogDescription className="text-sm text-neutral-400">
+						Choose how you want to share this recipe.
+					</DialogDescription>
+
+					{!showQRCode ? (
+						<div className="flex flex-col items-center gap-4 mt-4">
+							<Canvas
+								text={`https://example.com/recipes/${recipe.id}`} // Replace with the actual URL
+								options={{
+									errorCorrectionLevel: "M",
+									margin: 2,
+									scale: 4,
+									width: 350,
+									color: {
+										dark: "#FFFFFF", // White QR code
+										light: "#18181b", // Black background
+									},
+								}}
+							/>
+							{/* <Button
+								variant="outline"
+								className="w-full hover:bg-neutral-800 bg-white text-black"
+								onClick={() => setShowQRCode(true)}
+							>
+								Show QR Code
+							</Button> */}
+						</div>
+					) : (
+						<div className="flex flex-col items-center mt-4">
+							<Canvas
+								text={`https://example.com/recipes/${recipe.id}`} // Replace with the actual URL
+								options={{
+									errorCorrectionLevel: "M",
+									margin: 3,
+									scale: 4,
+									width: 350,
+									color: {
+										dark: "#FFFFFF", // White QR code
+										light: "#18181b", // Black background
+									},
+								}}
+							/>
+							<Button
+								variant="outline"
+								className="mt-4"
+								onClick={() => setShowQRCode(false)}
+							>
+								Back
+							</Button>
+						</div>
+					)}
+
+					<DialogFooter className="flex justify-center items-center mt-4">
+						<Button
+							variant="outline"
+							className="w-full p-3 bg-neutral-200 hover:bg-neutral-300 hover:text-black text-black rounded-md disabled:opacity-70 disabled:cursor-not-allowed mt-2 mb-2 transition-all hover:tracking-[0.2rem]"
+							onClick={handleCopyLink}
+						>
+							Copy Link
+						</Button>
+						<Button
+							className="w-full bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-300 text-white font-normal text-lg hover:tracking-[0.2rem] transition-all"
+							variant="outline"
+							onClick={() => setDialogOpen(false)}
+						>
+							Close
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 };
