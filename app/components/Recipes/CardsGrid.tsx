@@ -121,16 +121,10 @@ const CardsGrid = ({
 
 	return (
 		<>
-			<div className="flex justify-between items-center mb-4">
-				<div className="w-full relative my-1">
-					<label
-						htmlFor="timeFilter"
-						className="block mb-2 text-sm font-medium"
-					>
-						Time to Make:
-					</label>
+			<div className="flex justify-start items-center w-[90vw] mx-auto gap-6 mb-6">
+				<div className=" relative my-1 flex items-center justify-center">
 					<Select onValueChange={handleTimeFilterChange}>
-						<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
+						<SelectTrigger className=" bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-2 h-full rounded-full">
 							<SelectValue placeholder="Select time" />
 						</SelectTrigger>
 						<SelectContent>
@@ -147,15 +141,9 @@ const CardsGrid = ({
 					</Select>
 				</div>
 
-				<div className="w-full relative my-1">
-					<label
-						htmlFor="servingFilter"
-						className="block mb-2 text-sm font-medium"
-					>
-						Serving Size:
-					</label>
+				<div className=" relative my-1 flex items-center justify-center">
 					<Select onValueChange={handleServingFilterChange}>
-						<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
+						<SelectTrigger className=" bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-2 h-full rounded-full">
 							<SelectValue placeholder="Select serving size" />
 						</SelectTrigger>
 						<SelectContent>

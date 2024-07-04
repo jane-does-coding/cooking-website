@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import ImageUpload from "../Inputs/ImageUpload";
+import TimeInput from "../Inputs/TimeInput";
 
 // Define the structure for each ingredient
 interface IngredientData {
@@ -56,6 +57,16 @@ const CreateRecipe: React.FC = () => {
 	const [imageFile, setImageFile] = useState<File | null>(null); // For handling image files
 
 	const router = useRouter();
+
+	// Convert time to total minutes
+	const convertTimeToMinutes = (time: string): number => {
+		const [hours, minutes] = time.split(":").map(Number);
+		return hours * 60 + minutes;
+	};
+
+	const handleExpectedTimeChange = (value: string) => {
+		setData((prevData) => ({ ...prevData, expectedTime: value }));
+	};
 
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -119,11 +130,11 @@ const CreateRecipe: React.FC = () => {
 	const handleServingSizeChange = (value: string) => {
 		setData((prevData) => ({ ...prevData, servingSize: parseInt(value) }));
 	};
-
+	/* 
 	const handleExpectedTimeChange = (value: string) => {
 		setData((prevData) => ({ ...prevData, expectedTime: value }));
 	};
-
+ */
 	const handleImageUpload = (value: string) => {
 		setData((prevData) => ({ ...prevData, imageUrl: value }));
 		console.log("In the handleImageUpload: " + data);
@@ -186,7 +197,7 @@ const CreateRecipe: React.FC = () => {
 
 				<ImageUpload onChange={handleImageUpload} value={data.imageUrl} />
 
-				<form onSubmit={handleSubmit} className="gap-2 flex flex-col">
+				<form onSubmit={handleSubmit} className="gap-2 flex flex-col mt-6">
 					<div className="w-full relative my-1">
 						<input
 							id="title"
@@ -273,7 +284,7 @@ const CreateRecipe: React.FC = () => {
 							</Select>
 						</div>
 
-						<div className="w-full relative h-full">
+						{/* <div className="w-full relative h-full">
 							<input
 								id="expectedTime"
 								type="text"
@@ -288,6 +299,13 @@ const CreateRecipe: React.FC = () => {
 							<label className="absolute text-md  duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-neutral-300">
 								Expected Time (hh:mm)
 							</label>
+						</div> */}
+						<div className="w-full relative my-1">
+							<TimeInput
+								value={data.expectedTime}
+								onChange={handleExpectedTimeChange}
+								disabled={isLoading}
+							/>
 						</div>
 					</div>
 
