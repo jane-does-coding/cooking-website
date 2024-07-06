@@ -180,7 +180,7 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 
 			if (response.status === 200) {
 				toast.success("Recipe updated successfully");
-				router.push("/");
+				router.push("/recipes");
 			} else {
 				toast.error("Failed to update recipe");
 			}
@@ -256,7 +256,10 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 					<div className="flex gap-2 items-center justify-center h-fit">
 						{/* CATEGORY DROPDOWN */}
 						<div className="w-full relative my-1">
-							<Select onValueChange={handleCategoryChange}>
+							<Select
+								defaultValue={recipe.category}
+								onValueChange={handleCategoryChange}
+							>
 								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
 									<SelectValue placeholder="Select a category" />
 								</SelectTrigger>
@@ -274,7 +277,10 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 						</div>
 
 						<div className="w-full relative my-1">
-							<Select onValueChange={handleServingSizeChange}>
+							<Select
+								defaultValue={recipe.servingSize.toString()}
+								onValueChange={handleServingSizeChange}
+							>
 								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
 									<SelectValue placeholder="Select serving size" />
 								</SelectTrigger>
@@ -292,7 +298,10 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 						</div>
 
 						<div className="w-full relative my-1">
-							<Select onValueChange={handleExpectedTimeChange}>
+							<Select
+								defaultValue={recipe.expectedTime}
+								onValueChange={handleExpectedTimeChange}
+							>
 								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
 									<SelectValue placeholder="Expected Time" />
 								</SelectTrigger>
@@ -303,7 +312,7 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 										<SelectItem value="15-30">15-30 min</SelectItem>
 										<SelectItem value="30-60">30-60 min</SelectItem>
 										<SelectItem value="60-90">60-90 min</SelectItem>
-										<SelectItem value="90-120">1:30-2:00</SelectItem>
+										<SelectItem value="90-120">90-120</SelectItem>
 										<SelectItem value="120+">More than 2 hours</SelectItem>
 									</SelectGroup>
 								</SelectContent>
@@ -394,52 +403,72 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 					</button>
 
 					{data.steps.map((step, index) => (
-						<div className="flex items-center w-full gap-4" key={index}>
+						<div key={index} className="w-full relative my-1 flex">
 							<textarea
-								placeholder="Step description"
 								value={step}
 								onChange={(e) =>
 									handleArrayChange("steps", index, e.target.value)
 								}
+								disabled={isLoading}
+								required
+								placeholder=" "
 								className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+								rows={2}
 							/>
-							<button
-								type="button"
-								onClick={() => handleRemoveField("steps", index)}
-								className="p-2 text-white hover:bg-red-600"
-							>
-								<IoMdClose size={24} />
-							</button>
+							<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+								Step {index + 1}
+							</label>
+							{data.steps.length > 2 && (
+								<button
+									type="button"
+									onClick={() => handleRemoveField("steps", index)}
+									className="ml-2 p-2 bg-neutral-950 text-white rounded-md"
+									disabled={isLoading}
+								>
+									<IoMdClose size={24} />
+								</button>
+							)}
 						</div>
 					))}
 
 					<button
 						type="button"
 						onClick={() => handleAddField("steps")}
-						className="w-fit px-3 py-2 my-1 text-white bg-blue-500 rounded-md"
+						className="w-full p-2 mt-2 bg-neutral-950 text-white rounded-md"
+						disabled={isLoading}
 					>
-						Add Step
+						+ Step
 					</button>
 
 					<div className="w-full relative my-1">
 						<textarea
 							id="extraInfo"
 							disabled={isLoading}
-							value={data.extraInfo}
+							value={recipe.extraInfo}
 							onChange={handleChange}
-							placeholder="Extra Information"
+							required
+							placeholder=" "
 							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+							rows={2}
 						/>
+						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+							Extra Info
+						</label>
 					</div>
-
 					<button
 						type="submit"
-						className="w-fit px-4 py-2 mx-auto text-white bg-blue-500 rounded-md"
 						disabled={isLoading}
+						className="w-full p-3 bg-neutral-950 text-white rounded-md transition disabled:opacity-70 disabled:cursor-not-allowed mt-2"
 					>
-						Update Recipe
+						{isLoading ? "Editing Recipe..." : "Edit"}
 					</button>
 				</form>
+				<div className="mt-4 text-neutral-500 text-sm flex gap-2 text-center items-center justify-center mx-auto">
+					Want to view recipes?{" "}
+					<a href="/" className="text-neutral-200">
+						Home
+					</a>
+				</div>
 			</div>
 		</div>
 	);

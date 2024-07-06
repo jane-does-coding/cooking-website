@@ -15,7 +15,7 @@ const page = async () => {
 		<div className="pt-10">
 			<AnimatedTextCharacter
 				text="Explore Recipes"
-				className="text-[3.5rem] mx-auto mb-8 w-fit text-center text-white slovensko"
+				className="text-[2rem] md:text-[3.5rem] mx-auto mb-8 w-fit text-center text-white slovensko"
 			/>
 			<CategoriesGrid />
 			<CardsGrid recipes={recipes} currentUser={currentUser} />

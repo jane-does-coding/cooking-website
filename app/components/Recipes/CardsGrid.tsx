@@ -21,7 +21,8 @@ const CardsGrid = ({
 	recipes: any;
 	currentUser: any;
 }) => {
-	const itemsPerPage = 20;
+	/* PAGINATION */
+	const itemsPerPage = 15;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [timeFilter, setTimeFilter] = useState("All");
 	const [servingFilter, setServingFilter] = useState("All");
@@ -114,7 +115,7 @@ const CardsGrid = ({
 
 	return (
 		<div className="min-h-[50vh]">
-			<div className="flex justify-start items-center w-[90vw] mx-auto gap-6 mb-6 ">
+			<div className="flex flex-col md:flex-row justify-start items-start md:items-center w-[90vw] mx-auto gap-2 md:gap-6 mb-6 ">
 				{[timeFilter, servingFilter].map((filter, index) => (
 					<motion.div
 						key={index}

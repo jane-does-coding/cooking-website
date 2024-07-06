@@ -34,7 +34,7 @@ const Recommended = ({
 	};
 
 	return (
-		<div className="w-[25vw] xl:w-[30vw] p-4 pl-8 gap-4 border-l-2 border-neutral-800 h-screen overflow-auto fixed flex flex-col right-8 top-0">
+		<div className="w-[100vw] md:w-[25vw] xl:w-[30vw] p-4 pl-8 gap-4 border-l-0 md:border-l-2 border-neutral-800 h-fit md:h-screen overflow-auto md:fixed flex flex-col right-8 top-0">
 			<motion.h2
 				className="slovensko text-[2.5rem] my-4 text-center"
 				initial="hidden"

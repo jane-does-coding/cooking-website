@@ -50,12 +50,12 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 	};
 
 	return (
-		<div className="w-full pr-[25vw] xl:pr-[30vw] ">
-			<div className="container mx-auto py-8 relative">
+		<div className="w-full md:pr-[25vw] xl:pr-[30vw] ">
+			<div className="container mx-auto px-4 md:px-8 md:py-8 relative">
 				<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit relative">
 					<AnimatedTextCharacter
 						text={recipe.title}
-						className="text-[2rem] xl:text-[3rem] leading-[6rem]"
+						className="text-[2rem] xl:text-[3rem] leading-[6rem] max-w-[100vw] flex flex-wrap"
 					/>
 				</h1>
 
@@ -149,15 +149,15 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 				/>
 				<p className="mb-8">{recipe.extraInfo}</p>
 
-				<h2 className="text-xl font-semibold mb-2">Category</h2>
-				<p className="mb-8">{recipe.category}</p>
-
 				<CreateComment recipeId={recipe.id} />
 				<Comments comments={comments} />
 
 				{isOwner && (
 					<div className="flex gap-4 mt-12">
-						<Button className="w-full bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-300 text-white font-normal text-lg">
+						<Button
+							onClick={() => router.push(`/recipes/edit/${recipe.id}`)}
+							className="w-full bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-300 text-white font-normal text-lg"
+						>
 							Edit
 						</Button>
 						<Button
