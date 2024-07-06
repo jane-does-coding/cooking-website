@@ -1,30 +1,29 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import toast from "react-hot-toast";
-import { IoMdClose } from "react-icons/io";
+import ImageUpload from "../Inputs/ImageUpload";
+import TimeInput from "../Inputs/TimeInput";
 import {
 	Select,
+	SelectTrigger,
 	SelectContent,
 	SelectGroup,
 	SelectItem,
 	SelectLabel,
-	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
-import ImageUpload from "../Inputs/ImageUpload";
-import TimeInput from "../Inputs/TimeInput";
+import { IoMdClose } from "react-icons/io";
 
-// Define the structure for each ingredient
 interface IngredientData {
 	name: string;
 	amount: string;
 }
 
-// Update RecipeData to include ingredients with names and amounts
 interface RecipeData {
+	id: string;
 	title: string;
 	oneline: string;
 	description: string;
@@ -37,37 +36,43 @@ interface RecipeData {
 	imageUrl: string;
 }
 
-const CreateRecipe: React.FC = () => {
+interface EditRecipeProps {
+	recipeId: string;
+	recipe: any;
+}
+
+const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 	const [data, setData] = useState<RecipeData>({
-		title: "",
-		oneline: "",
-		description: "",
-		ingredients: [
-			{ name: "", amount: "" },
-			{ name: "", amount: "" },
-		],
-		steps: ["", ""],
-		extraInfo: "",
-		servingSize: 1,
-		expectedTime: "",
-		category: "",
-		imageUrl: "",
+		id: recipe.id,
+		title: recipe.title,
+		oneline: recipe.oneline,
+		description: recipe.description,
+		ingredients: recipe.ingredients,
+		steps: recipe.steps,
+		extraInfo: recipe.extrainfo,
+		servingSize: recipe.servingSize,
+		expectedTime: recipe.expectedTime,
+		category: recipe.category,
+		imageUrl: recipe.imageUrl,
 	});
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [imageFile, setImageFile] = useState<File | null>(null); // For handling image files
-
 	const router = useRouter();
 
-	// Convert time to total minutes
-	const convertTimeToMinutes = (time: string): number => {
-		const [hours, minutes] = time.split(":").map(Number);
-		return hours * 60 + minutes;
-	};
+	useEffect(() => {
+		const fetchRecipe = async () => {
+			try {
+				const response = await axios.get(`/api/recipes/${recipeId}`);
+				setData(response.data);
+			} catch (error) {
+				toast.error("Failed to fetch recipe data");
+			}
+		};
 
-	/* const handleExpectedTimeChange = (value: string) => {
-		setData((prevData) => ({ ...prevData, expectedTime: value }));
-	};
- */
+		fetchRecipe();
+	}, [recipeId]);
+
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -130,18 +135,13 @@ const CreateRecipe: React.FC = () => {
 	const handleServingSizeChange = (value: string) => {
 		setData((prevData) => ({ ...prevData, servingSize: parseInt(value) }));
 	};
-	/* 
-	const handleExpectedTimeChange = (value: string) => {
-		setData((prevData) => ({ ...prevData, expectedTime: value }));
-	};
- */
+
 	const handleExpectedTimeChange = (value: string) => {
 		setData((prevData) => ({ ...prevData, expectedTime: value }));
 	};
 
 	const handleImageUpload = (value: string) => {
 		setData((prevData) => ({ ...prevData, imageUrl: value }));
-		console.log("In the handleImageUpload: " + data);
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -149,12 +149,12 @@ const CreateRecipe: React.FC = () => {
 		setIsLoading(true);
 
 		try {
-			let imageUrl = "";
+			let imageUrl = data.imageUrl; // Keep the existing image URL unless a new file is uploaded
 
 			if (imageFile) {
 				const formData = new FormData();
 				formData.append("file", imageFile);
-				formData.append("upload_preset", "your_upload_preset"); // Your Cloudinary upload preset
+				formData.append("upload_preset", "your_upload_preset");
 
 				const response = await axios.post(
 					`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -165,27 +165,31 @@ const CreateRecipe: React.FC = () => {
 			}
 
 			// Add the imageUrl to the data object
-			const recipeData = { ...data, imageSrc: imageUrl };
+			const updatedRecipeData = { ...data, imageUrl };
 
-			// Make the POST request using Axios
-			const response = await axios.post("/api/recipes", recipeData, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			// Make the PUT request using Axios
+			const response = await axios.put(
+				`/api/recipes/${recipeId}`,
+				updatedRecipeData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 
 			if (response.status === 200) {
-				toast.success("Recipe created successfully");
+				toast.success("Recipe updated successfully");
 				router.push("/");
 			} else {
-				toast.error("Failed to create recipe");
+				toast.error("Failed to update recipe");
 			}
 		} catch (error: any) {
 			if (error.response) {
-				toast.error(`Failed to create recipe: ${error.response.data.message}`);
+				toast.error(`Failed to update recipe: ${error.response.data.message}`);
 			} else {
 				console.error("An error occurred:", error);
-				toast.error("An error occurred while creating the recipe");
+				toast.error("An error occurred while updating the recipe");
 			}
 		} finally {
 			setIsLoading(false);
@@ -196,7 +200,7 @@ const CreateRecipe: React.FC = () => {
 		<div className="w-[100vw] min-h-[100vh] mt-8 flex items-center justify-center">
 			<div className="w-[70vw] h-fit rounded-xl bg-neutral-900 px-8 py-8">
 				<h1 className="text-[2.5rem] mx-auto mb-8 w-fit text-center text-white slovensko">
-					Create Recipe
+					Edit Recipe
 				</h1>
 
 				<ImageUpload onChange={handleImageUpload} value={data.imageUrl} />
@@ -230,7 +234,7 @@ const CreateRecipe: React.FC = () => {
 							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
 						/>
 						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-							One line description
+							Oneline
 						</label>
 					</div>
 
@@ -243,7 +247,6 @@ const CreateRecipe: React.FC = () => {
 							required
 							placeholder=" "
 							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-							rows={3}
 						/>
 						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
 							Description
@@ -288,30 +291,6 @@ const CreateRecipe: React.FC = () => {
 							</Select>
 						</div>
 
-						{/* <div className="w-full relative h-full">
-							<input
-								id="expectedTime"
-								type="text"
-								disabled={isLoading}
-								value={data.expectedTime}
-								onChange={(e) => handleExpectedTimeChange(e.target.value)}
-								required
-								placeholder=" "
-								className="peer w-full p-4 pb-6 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white h-full"
-								step="1"
-							/>
-							<label className="absolute text-md  duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-neutral-300">
-								Expected Time (hh:mm)
-							</label>
-						</div> */}
-						{/* <div className="w-full relative my-1">
-							<TimeInput
-								value={data.expectedTime}
-								onChange={handleExpectedTimeChange}
-								disabled={isLoading}
-							/>
-						</div> */}
-
 						<div className="w-full relative my-1">
 							<Select onValueChange={handleExpectedTimeChange}>
 								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
@@ -332,110 +311,115 @@ const CreateRecipe: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="w-full my-1">
-						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
-							Ingredients
-						</label>
-						{data.ingredients.map((ingredient, index) => (
-							<div
-								key={index}
-								className="w-full relative my-1 flex space-x-2 gap-2"
+					{data.ingredients.map((ingredient, index) => (
+						/* <div className="flex items-center w-full gap-4" key={index}>
+							<Input
+								placeholder="Ingredient name"
+								value={ingredient.name}
+								onChange={(e) =>
+									handleIngredientChange(index, "name", e.target.value)
+								}
+							/>
+							<Input
+								placeholder="Amount"
+								value={ingredient.amount}
+								onChange={(e) =>
+									handleIngredientChange(index, "amount", e.target.value)
+								}
+							/>
+							<button
+								type="button"
+								onClick={() => handleRemoveIngredient(index)}
+								className="p-2 text-white hover:bg-red-600"
 							>
-								<div className="w-2/3 relative my-1">
-									<input
-										type="text"
-										value={ingredient.name}
-										onChange={(e) =>
-											handleIngredientChange(index, "name", e.target.value)
-										}
-										disabled={isLoading}
-										required
-										placeholder=" "
-										className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-									/>
-									<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-										Ingredient
-									</label>
-								</div>
-								<div className="w-1/3 relative my-1">
-									<input
-										type="text"
-										value={ingredient.amount}
-										onChange={(e) =>
-											handleIngredientChange(index, "amount", e.target.value)
-										}
-										disabled={isLoading}
-										required
-										placeholder=" "
-										className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-									/>
-									<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-										Amount
-									</label>
-								</div>
-								{data.ingredients.length > 2 && (
-									<button
-										type="button"
-										onClick={() => handleRemoveIngredient(index)}
-										className="ml-2 p-2 bg-neutral-950 text-white rounded-md"
-										disabled={isLoading}
-									>
-										<IoMdClose size={24} />
-									</button>
-								)}
-							</div>
-						))}
-						<button
-							type="button"
-							onClick={handleAddIngredient}
-							className="w-full p-2 mt-2 bg-neutral-950 text-white rounded-md"
-							disabled={isLoading}
+								<IoMdClose size={24} />
+							</button>
+						</div> */
+						<div
+							key={index}
+							className="w-full relative my-1 flex space-x-2 gap-2"
 						>
-							+ Ingredient
-						</button>
-					</div>
-
-					<div className="w-full my-1">
-						<label className="text-md text-white mx-auto jura w-fit text-[2rem] text-center flex items-center justify-center mb-4">
-							Recipe Steps
-						</label>
-						{data.steps.map((step, index) => (
-							<div key={index} className="w-full relative my-1 flex">
-								<textarea
-									value={step}
+							<div className="w-2/3 relative my-1">
+								<input
+									type="text"
+									value={ingredient.name}
 									onChange={(e) =>
-										handleArrayChange("steps", index, e.target.value)
+										handleIngredientChange(index, "name", e.target.value)
 									}
 									disabled={isLoading}
 									required
 									placeholder=" "
 									className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-									rows={2}
 								/>
 								<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-									Step {index + 1}
+									Ingredient
 								</label>
-								{data.steps.length > 2 && (
-									<button
-										type="button"
-										onClick={() => handleRemoveField("steps", index)}
-										className="ml-2 p-2 bg-neutral-950 text-white rounded-md"
-										disabled={isLoading}
-									>
-										<IoMdClose size={24} />
-									</button>
-								)}
 							</div>
-						))}
-						<button
-							type="button"
-							onClick={() => handleAddField("steps")}
-							className="w-full p-2 mt-2 bg-neutral-950 text-white rounded-md"
-							disabled={isLoading}
-						>
-							+ Step
-						</button>
-					</div>
+							<div className="w-1/3 relative my-1">
+								<input
+									type="text"
+									value={ingredient.amount}
+									onChange={(e) =>
+										handleIngredientChange(index, "amount", e.target.value)
+									}
+									disabled={isLoading}
+									required
+									placeholder=" "
+									className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+								/>
+								<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
+									Amount
+								</label>
+							</div>
+							{data.ingredients.length > 2 && (
+								<button
+									type="button"
+									onClick={() => handleRemoveIngredient(index)}
+									className="ml-2 p-2 bg-neutral-950 text-white rounded-md"
+									disabled={isLoading}
+								>
+									<IoMdClose size={24} />
+								</button>
+							)}
+						</div>
+					))}
+
+					<button
+						type="button"
+						onClick={handleAddIngredient}
+						className="w-full p-2 mt-2 bg-neutral-950 text-white rounded-md"
+						disabled={isLoading}
+					>
+						+ Ingredient
+					</button>
+
+					{data.steps.map((step, index) => (
+						<div className="flex items-center w-full gap-4" key={index}>
+							<textarea
+								placeholder="Step description"
+								value={step}
+								onChange={(e) =>
+									handleArrayChange("steps", index, e.target.value)
+								}
+								className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
+							/>
+							<button
+								type="button"
+								onClick={() => handleRemoveField("steps", index)}
+								className="p-2 text-white hover:bg-red-600"
+							>
+								<IoMdClose size={24} />
+							</button>
+						</div>
+					))}
+
+					<button
+						type="button"
+						onClick={() => handleAddField("steps")}
+						className="w-fit px-3 py-2 my-1 text-white bg-blue-500 rounded-md"
+					>
+						Add Step
+					</button>
 
 					<div className="w-full relative my-1">
 						<textarea
@@ -443,33 +427,22 @@ const CreateRecipe: React.FC = () => {
 							disabled={isLoading}
 							value={data.extraInfo}
 							onChange={handleChange}
-							required
-							placeholder=" "
+							placeholder="Extra Information"
 							className="peer w-full p-3 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white"
-							rows={2}
 						/>
-						<label className="absolute text-md duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-white">
-							Extra Info
-						</label>
 					</div>
 
 					<button
 						type="submit"
+						className="w-fit px-4 py-2 mx-auto text-white bg-blue-500 rounded-md"
 						disabled={isLoading}
-						className="w-full p-3 bg-neutral-950 text-white rounded-md transition disabled:opacity-70 disabled:cursor-not-allowed mt-2"
 					>
-						{isLoading ? "Creating Recipe..." : "Submit"}
+						Update Recipe
 					</button>
 				</form>
-				<div className="mt-4 text-neutral-500 text-sm flex gap-2 text-center items-center justify-center mx-auto">
-					Want to view recipes?{" "}
-					<a href="/" className="text-neutral-200">
-						Home
-					</a>
-				</div>
 			</div>
 		</div>
 	);
 };
 
-export default CreateRecipe;
+export default EditRecipe;
