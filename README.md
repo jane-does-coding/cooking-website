@@ -6,7 +6,7 @@
 
 ## Demo
 
-[Recipes Site - Live Demo](/)
+[Recipes Site - Live Demo](/my-site)
 
 ## Functionality
 
