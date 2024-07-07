@@ -4,7 +4,6 @@ import getRecipeById from "@/app/actions/getRecipeById";
 
 const Page = async ({ params }: { params: { recipeId: string } }) => {
 	const recipe = await getRecipeById(params);
-	console.log(recipe);
 
 	return (
 		<div>

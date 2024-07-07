@@ -14,19 +14,23 @@
 - Create Recipe
 - Edit Recipe
 - Delete Recipe
-- Sort Recipe
-- Search Recipe
-- Grid/List View
+- Sort/filter Recipes
+- Search Recipe - TODO
+- Grid/List View - TODO
 
 ## Pages
 
 - landing
 - about
 - recipes
-- create
+- page for each category
+- create recipe
+- edit recipe
 - register
 - login
 - recipe
+- saved
+- profile
 
 ## Run Locally
 

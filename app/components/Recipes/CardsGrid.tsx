@@ -21,7 +21,6 @@ const CardsGrid = ({
 	recipes: any;
 	currentUser: any;
 }) => {
-	/* PAGINATION */
 	const itemsPerPage = 15;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [timeFilter, setTimeFilter] = useState("All");

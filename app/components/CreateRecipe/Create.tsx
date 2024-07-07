@@ -15,15 +15,12 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import ImageUpload from "../Inputs/ImageUpload";
-import TimeInput from "../Inputs/TimeInput";
 
-// Define the structure for each ingredient
 interface IngredientData {
 	name: string;
 	amount: string;
 }
 
-// Update RecipeData to include ingredients with names and amounts
 interface RecipeData {
 	title: string;
 	oneline: string;
@@ -54,20 +51,10 @@ const CreateRecipe: React.FC = () => {
 		imageUrl: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
-	const [imageFile, setImageFile] = useState<File | null>(null); // For handling image files
+	const [imageFile, setImageFile] = useState<File | null>(null);
 
 	const router = useRouter();
 
-	// Convert time to total minutes
-	const convertTimeToMinutes = (time: string): number => {
-		const [hours, minutes] = time.split(":").map(Number);
-		return hours * 60 + minutes;
-	};
-
-	/* const handleExpectedTimeChange = (value: string) => {
-		setData((prevData) => ({ ...prevData, expectedTime: value }));
-	};
- */
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -130,11 +117,7 @@ const CreateRecipe: React.FC = () => {
 	const handleServingSizeChange = (value: string) => {
 		setData((prevData) => ({ ...prevData, servingSize: parseInt(value) }));
 	};
-	/* 
-	const handleExpectedTimeChange = (value: string) => {
-		setData((prevData) => ({ ...prevData, expectedTime: value }));
-	};
- */
+
 	const handleExpectedTimeChange = (value: string) => {
 		setData((prevData) => ({ ...prevData, expectedTime: value }));
 	};
@@ -154,7 +137,7 @@ const CreateRecipe: React.FC = () => {
 			if (imageFile) {
 				const formData = new FormData();
 				formData.append("file", imageFile);
-				formData.append("upload_preset", "your_upload_preset"); // Your Cloudinary upload preset
+				formData.append("upload_preset", "your_upload_preset");
 
 				const response = await axios.post(
 					`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -164,14 +147,12 @@ const CreateRecipe: React.FC = () => {
 				imageUrl = response.data.secure_url;
 			}
 
-			// Add the imageUrl to the data object
 			const recipeData = {
 				...data,
 				imageSrc: imageUrl,
 				extraInfo: data.extraInfo ? data.extraInfo : "",
 			};
 
-			// Make the POST request using Axios
 			const response = await axios.post("/api/recipes", recipeData, {
 				headers: {
 					"Content-Type": "application/json",
@@ -258,7 +239,6 @@ const CreateRecipe: React.FC = () => {
 					</div>
 
 					<div className="flex gap-2 items-center justify-center h-fit">
-						{/* CATEGORY DROPDOWN */}
 						<div className="w-full relative my-1">
 							<Select onValueChange={handleCategoryChange}>
 								<SelectTrigger className="w-full bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md text-white p-3 py-6 h-full">
@@ -294,30 +274,6 @@ const CreateRecipe: React.FC = () => {
 								</SelectContent>
 							</Select>
 						</div>
-
-						{/* <div className="w-full relative h-full">
-							<input
-								id="expectedTime"
-								type="text"
-								disabled={isLoading}
-								value={data.expectedTime}
-								onChange={(e) => handleExpectedTimeChange(e.target.value)}
-								required
-								placeholder=" "
-								className="peer w-full p-4 pb-6 pt-6 pl-4 font-light bg-neutral-800/75 border-2 border-neutral-800/75 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed relative text-white h-full"
-								step="1"
-							/>
-							<label className="absolute text-md  duration-150 transform -translate-y-3 top-5 left-4 z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-neutral-300">
-								Expected Time (hh:mm)
-							</label>
-						</div> */}
-						{/* <div className="w-full relative my-1">
-							<TimeInput
-								value={data.expectedTime}
-								onChange={handleExpectedTimeChange}
-								disabled={isLoading}
-							/>
-						</div> */}
 
 						<div className="w-full relative my-1">
 							<Select onValueChange={handleExpectedTimeChange}>

@@ -7,8 +7,7 @@ const page = async ({ params }: any) => {
 	const { categoryName } = params;
 	const recipes = await getCategoryByName(categoryName);
 	const currentUser = getCurrentUser();
-	/* 	console.log(recipes);
-	 */
+
 	return (
 		<div>
 			<Category

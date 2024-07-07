@@ -6,11 +6,9 @@ import AnimatedTextCharacter from "@/app/components/Text/AnimatedTextCharacter";
 import React from "react";
 
 const page = async () => {
-	/* FETCH RECIPES */
 	const recipes = await getRecipes();
 	const currentUser = await getCurrentUser();
-	/* 	console.log(recipes);
-	 */
+
 	return (
 		<div className="pt-10">
 			<AnimatedTextCharacter

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ImageUpload from "../Inputs/ImageUpload";
-import TimeInput from "../Inputs/TimeInput";
 import {
 	Select,
 	SelectTrigger,
@@ -57,7 +56,7 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 	});
 
 	const [isLoading, setIsLoading] = useState(false);
-	const [imageFile, setImageFile] = useState<File | null>(null); // For handling image files
+	const [imageFile, setImageFile] = useState<File | null>(null);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -149,7 +148,7 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 		setIsLoading(true);
 
 		try {
-			let imageUrl = data.imageUrl; // Keep the existing image URL unless a new file is uploaded
+			let imageUrl = data.imageUrl;
 
 			if (imageFile) {
 				const formData = new FormData();
@@ -164,10 +163,8 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 				imageUrl = response.data.secure_url;
 			}
 
-			// Add the imageUrl to the data object
 			const updatedRecipeData = { ...data, imageUrl };
 
-			// Make the PUT request using Axios
 			const response = await axios.put(
 				`/api/recipes/${recipeId}`,
 				updatedRecipeData,
@@ -254,7 +251,6 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 					</div>
 
 					<div className="flex gap-2 items-center justify-center h-fit">
-						{/* CATEGORY DROPDOWN */}
 						<div className="w-full relative my-1">
 							<Select
 								defaultValue={recipe.category}
@@ -321,29 +317,6 @@ const EditRecipe: React.FC<EditRecipeProps> = ({ recipeId, recipe }) => {
 					</div>
 
 					{data.ingredients.map((ingredient, index) => (
-						/* <div className="flex items-center w-full gap-4" key={index}>
-							<Input
-								placeholder="Ingredient name"
-								value={ingredient.name}
-								onChange={(e) =>
-									handleIngredientChange(index, "name", e.target.value)
-								}
-							/>
-							<Input
-								placeholder="Amount"
-								value={ingredient.amount}
-								onChange={(e) =>
-									handleIngredientChange(index, "amount", e.target.value)
-								}
-							/>
-							<button
-								type="button"
-								onClick={() => handleRemoveIngredient(index)}
-								className="p-2 text-white hover:bg-red-600"
-							>
-								<IoMdClose size={24} />
-							</button>
-						</div> */
 						<div
 							key={index}
 							className="w-full relative my-1 flex space-x-2 gap-2"

@@ -57,7 +57,7 @@ export async function PUT(
 		servingSize,
 		expectedTime,
 		category,
-		imageUrl, // This will contain the Cloudinary URL if it's changed
+		imageUrl,
 	} = body;
 
 	if (!title || !description || !steps || !ingredients) {
@@ -68,7 +68,6 @@ export async function PUT(
 	}
 
 	try {
-		// Update the recipe
 		const recipe = await prisma.recipe.update({
 			where: { id: recipeId },
 			data: {
@@ -84,14 +83,12 @@ export async function PUT(
 			},
 		});
 
-		// Delete existing ingredients to replace with updated ones
 		await prisma.ingredient.deleteMany({
 			where: {
 				recipeId: recipeId,
 			},
 		});
 
-		// Add updated ingredients
 		await prisma.ingredient.createMany({
 			data: ingredients.map((ingredient: { name: string; amount: string }) => ({
 				name: ingredient.name,

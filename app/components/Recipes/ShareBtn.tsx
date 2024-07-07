@@ -17,7 +17,7 @@ const ShareBtn = ({ recipe }: any) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
 
 	const handleCopyLink = () => {
-		const link = `recipes/${recipe.id}`; // Replace with the actual URL
+		const link = `recipes/${recipe.id}`;
 		navigator.clipboard
 			.writeText(link)
 			.then(() => alert("Link copied to clipboard!"))
@@ -68,38 +68,31 @@ const ShareBtn = ({ recipe }: any) => {
 					{!showQRCode ? (
 						<div className="flex flex-col items-center gap-4 mt-4">
 							<Canvas
-								text={`https://example.com/recipes/${recipe.id}`} // Replace with the actual URL
+								text={`https://example.com/recipes/${recipe.id}`}
 								options={{
 									errorCorrectionLevel: "M",
 									margin: 2,
 									scale: 4,
 									width: 350,
 									color: {
-										dark: "#FFFFFF", // White QR code
-										light: "#18181b", // Black background
+										dark: "#FFFFFF",
+										light: "#18181b",
 									},
 								}}
 							/>
-							{/* <Button
-								variant="outline"
-								className="w-full hover:bg-neutral-800 bg-white text-black"
-								onClick={() => setShowQRCode(true)}
-							>
-								Show QR Code
-							</Button> */}
 						</div>
 					) : (
 						<div className="flex flex-col items-center mt-4">
 							<Canvas
-								text={`https://example.com/recipes/${recipe.id}`} // Replace with the actual URL
+								text={`https://example.com/recipes/${recipe.id}`}
 								options={{
 									errorCorrectionLevel: "M",
 									margin: 3,
 									scale: 4,
 									width: 350,
 									color: {
-										dark: "#FFFFFF", // White QR code
-										light: "#18181b", // Black background
+										dark: "#FFFFFF",
+										light: "#18181b",
 									},
 								}}
 							/>
