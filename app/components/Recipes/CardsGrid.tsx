@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import RecipeCard from "./RecipeCard";
+import ListRecipeCard from "./ListRecipeCard";
 import { Pagination } from "@/components/ui/pagination";
+import { CiBoxList } from "react-icons/ci";
 import {
 	Select,
 	SelectContent,
@@ -13,56 +15,22 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { CiGrid41 } from "react-icons/ci";
 
-const CardsGrid = ({
-	recipes,
-	currentUser,
-}: {
-	recipes: any;
-	currentUser: any;
-}) => {
+const CardsGrid = ({ recipes, currentUser }: any) => {
 	const itemsPerPage = 15;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [timeFilter, setTimeFilter] = useState("All");
 	const [servingFilter, setServingFilter] = useState("All");
+	const [searchQuery, setSearchQuery] = useState("");
+	const [isListView, setIsListView] = useState(false);
+
 	const router = useRouter();
-
-	const handleReset = () => {
-		setTimeFilter("All");
-		setServingFilter("All");
-		setCurrentPage(1);
-		router.refresh();
-	};
-
-	const cardVariants = {
-		hidden: { opacity: 0, y: 20 },
-		visible: (index: number) => ({
-			opacity: 1,
-			y: 0,
-			transition: {
-				delay: index * 0.1,
-				duration: 0.5,
-			},
-		}),
-	};
-
-	const dropdownVariants = {
-		hidden: { opacity: 0, y: 30 },
-		visible: (index: number) => ({
-			opacity: 1,
-			y: 0,
-			transition: {
-				delay: 0.25 + index * 0.1,
-				duration: 0.3,
-			},
-		}),
-	};
 
 	const filterRecipes = () => {
 		return recipes.filter((recipe: any) => {
 			let timeMatch =
 				timeFilter === "All" || recipe.expectedTime === timeFilter;
-
 			let servingMatch = true;
 			if (servingFilter !== "All") {
 				const servings = recipe.servingSize;
@@ -86,9 +54,55 @@ const CardsGrid = ({
 						servingMatch = true;
 				}
 			}
+			let searchMatch = recipe.title
+				.toLowerCase()
+				.includes(searchQuery.toLowerCase());
 
-			return timeMatch && servingMatch;
+			return timeMatch && servingMatch && searchMatch;
 		});
+	};
+
+	const handleReset = () => {
+		setTimeFilter("All");
+		setServingFilter("All");
+		setCurrentPage(1);
+		router.refresh();
+	};
+
+	const cardVariants = {
+		hidden: { opacity: 0, y: 20 },
+		visible: (index: any) => ({
+			opacity: 1,
+			y: 0,
+			transition: {
+				delay: index * 0.1,
+				duration: 0.5,
+			},
+		}),
+	};
+
+	const dropdownVariants = {
+		hidden: { opacity: 0, y: 30 },
+		visible: (index: any) => ({
+			opacity: 1,
+			y: 0,
+			transition: {
+				delay: 0.25 + index * 0.1,
+				duration: 0.3,
+			},
+		}),
+	};
+
+	const toggleVariants = {
+		hidden: { opacity: 0, y: 20 },
+		visible: (index: any) => ({
+			opacity: 1,
+			y: 0,
+			transition: {
+				delay: 0.25 + index * 0.1,
+				duration: 0.5,
+			},
+		}),
 	};
 
 	const filteredRecipes = filterRecipes();
@@ -100,33 +114,53 @@ const CardsGrid = ({
 	);
 	const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
 
-	const handlePageChange = (newPage: number) => {
+	const handlePageChange = (newPage: any) => {
 		setCurrentPage(newPage);
 	};
 
-	const handleTimeFilterChange = (value: string) => {
+	const handleTimeFilterChange = (value: any) => {
 		setTimeFilter(value);
 	};
 
-	const handleServingFilterChange = (value: string) => {
+	const handleServingFilterChange = (value: any) => {
 		setServingFilter(value);
+	};
+
+	const toggleView = () => {
+		setIsListView((prev) => !prev);
 	};
 
 	return (
 		<div className="min-h-[50vh]">
-			<div className="flex flex-col md:flex-row justify-start items-start md:items-center w-[90vw] mx-auto gap-2 md:gap-6 mb-6 ">
+			<div className="flex flex-col md:flex-row justify-start items-start md:items-center w-[90vw] mx-auto gap-2 md:gap-6 mb-6">
+				<motion.div
+					initial="hidden"
+					animate="visible"
+					variants={dropdownVariants}
+					custom={0}
+					className="w-full"
+				>
+					<input
+						type="text"
+						value={searchQuery}
+						onChange={(e) => setSearchQuery(e.target.value)}
+						placeholder="Search recipes..."
+						className="bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 text-white px-4 py-2 rounded-full outline-none w-full"
+					/>
+				</motion.div>
+
 				{[timeFilter, servingFilter].map((filter, index) => (
 					<motion.div
 						key={index}
-						custom={index}
+						custom={index + 1}
 						initial="hidden"
 						animate="visible"
 						variants={dropdownVariants}
-						className="relative my-1 flex items-center justify-center"
+						className="relative my-1 flex items-center justify-center w-1/3"
 					>
 						{index === 0 ? (
 							<Select onValueChange={handleTimeFilterChange}>
-								<SelectTrigger className="bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-2 h-full rounded-full">
+								<SelectTrigger className="bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-[12px] h-full rounded-full">
 									<SelectValue placeholder="Select time" />
 								</SelectTrigger>
 								<SelectContent>
@@ -144,7 +178,7 @@ const CardsGrid = ({
 							</Select>
 						) : (
 							<Select onValueChange={handleServingFilterChange}>
-								<SelectTrigger className="bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-2 h-full rounded-full">
+								<SelectTrigger className="bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-[12px] h-full rounded-full">
 									<SelectValue placeholder="Select serving size" />
 								</SelectTrigger>
 								<SelectContent>
@@ -162,21 +196,48 @@ const CardsGrid = ({
 						)}
 					</motion.div>
 				))}
+
+				<motion.button
+					onClick={toggleView}
+					className="bg-neutral-800/75 text-white px-4 py-2 rounded-full"
+					initial="hidden"
+					animate="visible"
+					variants={toggleVariants}
+					custom={3}
+				>
+					{isListView ? <CiGrid41 size={28} /> : <CiBoxList size={28} />}
+				</motion.button>
 			</div>
 
 			{filteredRecipes.length > 0 ? (
-				<div className="w-[96vw] mx-auto ml-[2vw] md:w-[90vw] md:ml-[5vw] gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-					{currentRecipes.map((recipe: any, index: any) => (
-						<motion.div
-							key={index}
-							custom={index}
-							initial="hidden"
-							animate="visible"
-							variants={cardVariants}
-						>
-							<RecipeCard currentUser={currentUser} recipe={recipe} />
-						</motion.div>
-					))}
+				<div
+					className={`w-[96vw] mx-auto ml-[2vw] md:w-[90vw] md:ml-[5vw] gap-8 ${
+						isListView ? "" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+					}`}
+				>
+					{isListView
+						? currentRecipes.map((recipe: any, index: any) => (
+								<motion.div
+									key={index}
+									custom={index}
+									initial="hidden"
+									animate="visible"
+									variants={cardVariants}
+								>
+									<ListRecipeCard currentUser={currentUser} recipe={recipe} />
+								</motion.div>
+						  ))
+						: currentRecipes.map((recipe: any, index: any) => (
+								<motion.div
+									key={index}
+									custom={index}
+									initial="hidden"
+									animate="visible"
+									variants={cardVariants}
+								>
+									<RecipeCard currentUser={currentUser} recipe={recipe} />
+								</motion.div>
+						  ))}
 				</div>
 			) : (
 				<div className="gap-4">
