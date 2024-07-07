@@ -51,7 +51,7 @@ const RecipeDetails = ({ recipe, currentUser, comments }: any) => {
 
 	return (
 		<div className="w-full md:pr-[25vw] xl:pr-[30vw] ">
-			<div className="container mx-auto px-4 md:px-8 md:py-8 relative">
+			<div className="container mx-auto px-4 pt-16 md:px-8 md:py-8 relative">
 				<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit relative">
 					<AnimatedTextCharacter
 						text={recipe.title}

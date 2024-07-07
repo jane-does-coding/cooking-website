@@ -179,7 +179,7 @@ const CreateRecipe: React.FC = () => {
 
 	return (
 		<div className="w-[100vw] min-h-[100vh] mt-8 flex items-center justify-center">
-			<div className="w-[70vw] h-fit rounded-xl bg-neutral-900 px-8 py-8">
+			<div className="w-[96vw] md:w-[70vw] h-fit rounded-xl bg-neutral-900 px-4 md:px-8 py-8">
 				<h1 className="text-[2.5rem] mx-auto mb-8 w-fit text-center text-white slovensko">
 					Create Recipe
 				</h1>

@@ -156,11 +156,11 @@ const CardsGrid = ({ recipes, currentUser }: any) => {
 						initial="hidden"
 						animate="visible"
 						variants={dropdownVariants}
-						className="relative my-1 flex items-center justify-center w-1/3"
+						className="relative my-1 flex items-center justify-center md:w-1/3 w-full"
 					>
 						{index === 0 ? (
 							<Select onValueChange={handleTimeFilterChange}>
-								<SelectTrigger className="bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-[12px] h-full rounded-full">
+								<SelectTrigger className="bg-neutral-800/75 border-2 border-neutral-800/75 ring-neutral-800 focus:ring-neutral-800 border-none focus:border-none outline-none focus:outline-none text-white px-8 py-[12px] h-full rounded-full w-full">
 									<SelectValue placeholder="Select time" />
 								</SelectTrigger>
 								<SelectContent>
@@ -199,7 +199,7 @@ const CardsGrid = ({ recipes, currentUser }: any) => {
 
 				<motion.button
 					onClick={toggleView}
-					className="bg-neutral-800/75 text-white px-4 py-2 rounded-full"
+					className="bg-neutral-800/75 text-white px-4 py-2 rounded-full hidden md:flex"
 					initial="hidden"
 					animate="visible"
 					variants={toggleVariants}
