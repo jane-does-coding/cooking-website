@@ -16,7 +16,11 @@ const page = async () => {
 				className="text-[2rem] md:text-[3.5rem] mx-auto mb-8 w-fit text-center text-white slovensko"
 			/>
 			<CategoriesGrid />
-			<CardsGrid recipes={recipes} currentUser={currentUser} />
+			<CardsGrid
+				showFilters={true}
+				recipes={recipes}
+				currentUser={currentUser}
+			/>
 		</div>
 	);
 };

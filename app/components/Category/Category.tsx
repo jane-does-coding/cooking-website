@@ -24,7 +24,11 @@ const Category = ({ currentUser, recipes, categoryName }: any) => {
 					className="text-[2rem] xl:text-[3rem] leading-[6rem]"
 				/>
 			</h1>
-			<CardsGrid recipes={recipes} currentUser={currentUser} />
+			<CardsGrid
+				recipes={recipes}
+				currentUser={currentUser}
+				showFilters={true}
+			/>
 		</div>
 	);
 };

@@ -16,8 +16,8 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   favoriteIds    String[] @db.ObjectId
-  recipes        Recipe[]  @relation("UserRecipes") // Update the relation name
-  comments     Comment[] @relation("UserComments") // Add this line to relate to comments
+  recipes        Recipe[]  @relation("UserRecipes") 
+  comments     Comment[] @relation("UserComments") 
 }
 
 model Recipe {
@@ -25,20 +25,20 @@ model Recipe {
   title          String
   oneline        String
   description    String
-  steps          String[]       // List of steps for the recipe
+  steps          String[]      
   ingredients    Ingredient[]   @relation("RecipeIngredients")
   extraInfo      String
   servingSize    Int
   expectedTime   String
   category       String
-  imageUrl       String         // URL to the image of the recipe
-  likes          String[]       @db.ObjectId // List of user IDs who liked the recipe
-  saved          String[]       @db.ObjectId // List of user IDs who saved the recipe
+  imageUrl       String        
+  likes          String[]       @db.ObjectId 
+  saved          String[]       @db.ObjectId 
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  userId         String         @db.ObjectId  // Add this line
-  user           User           @relation("UserRecipes", fields: [userId], references: [id]) // Add this line to create relation
-  comments       Comment[]      @relation("RecipeComments") // Define relation to comments
+  userId         String         @db.ObjectId  
+  user           User           @relation("UserRecipes", fields: [userId], references: [id]) 
+  comments       Comment[]      @relation("RecipeComments") 
 }
 
 model Ingredient {
@@ -55,6 +55,6 @@ model Comment {
   updatedAt  DateTime @updatedAt
   recipeId   String   @db.ObjectId
   recipe     Recipe   @relation("RecipeComments", fields: [recipeId], references: [id])
-    userId       String    @db.ObjectId  // Add this line for user relation
-  user         User      @relation("UserComments", fields: [userId], references: [id]) // Add this line for user relation
+    userId       String    @db.ObjectId  
+  user         User      @relation("UserComments", fields: [userId], references: [id]) 
 }
