@@ -92,24 +92,36 @@ const Profile = ({
 			</div>
 
 			{/* Saved Recipes */}
-			<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit">
-				<AnimatedTextCharacter
-					text={"Saved"}
-					className="text-[2rem] xl:text-[3rem] leading-[6rem]"
-				/>
-			</h1>
-			<CardsGrid recipes={savedRecipes} currentUser={currentUser} />
+			{savedRecipes ? (
+				<>
+					<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit">
+						<AnimatedTextCharacter
+							text={"Saved"}
+							className="text-[2rem] xl:text-[3rem] leading-[6rem]"
+						/>
+					</h1>
+					<CardsGrid recipes={savedRecipes} currentUser={currentUser} />
+				</>
+			) : (
+				<div>No saved recipes</div>
+			)}
 			<br />
 			<br />
 
 			{/* Posted Recipes */}
-			<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit">
-				<AnimatedTextCharacter
-					text={"Your Recipes"}
-					className="text-[2rem] xl:text-[3rem] leading-[6rem]"
-				/>
-			</h1>
-			<CardsGrid recipes={userRecipes} currentUser={currentUser} />
+			{userRecipes ? (
+				<>
+					<h1 className="mx-auto mb-6 xl:mb-6 mt-0 slovensko w-fit">
+						<AnimatedTextCharacter
+							text={"Your Recipes"}
+							className="text-[2rem] xl:text-[3rem] leading-[6rem]"
+						/>
+					</h1>
+					<CardsGrid recipes={userRecipes} currentUser={currentUser} />
+				</>
+			) : (
+				<div>No posted recipes</div>
+			)}
 
 			{/* Add more func/stuff */}
 		</div>

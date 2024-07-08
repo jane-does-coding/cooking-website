@@ -11,6 +11,8 @@ const page = async () => {
 	const likedRecipes = await getLikedRecipes();
 	const userRecipes = await getUserRecipes();
 
+	if (!currentUser) return <div></div>;
+
 	/* Idk, maybe add more actions */
 
 	return (
